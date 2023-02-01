@@ -1,0 +1,7 @@
+server:
+  port: 8080
+spring:
+  r2dbc:
+    url: r2dbc:mysql://192.168.253.128:3306/dev_jian
+    username: root
+    password: 123456
