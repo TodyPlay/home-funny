@@ -2,7 +2,6 @@ package com.home.funny.constant;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +19,6 @@ public enum Authority implements GrantedAuthority {
         return name();
     }
 
-    @Component
     public static class AuthorityListConverter implements Converter<String, List<Authority>> {
 
         @Override
