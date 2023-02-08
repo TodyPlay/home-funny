@@ -8,6 +8,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 权限级别
+ */
 public enum Authority implements GrantedAuthority {
 
     API,
