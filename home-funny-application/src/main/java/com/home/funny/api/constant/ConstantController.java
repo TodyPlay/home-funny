@@ -1,6 +1,5 @@
 package com.home.funny.api.constant;
 
-import com.home.funny.constant.wrapeper.KVEnum;
 import com.home.funny.constant.MediaType;
 import com.home.funny.constant.wrapeper.KVWrapper;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +12,7 @@ import reactor.core.publisher.Flux;
 public class ConstantController {
 
     @GetMapping("media-types")
-    public Flux<KVEnum<?, ?>> mediaTypes() {
+    public Flux<KVWrapper<?, ?>> mediaTypes() {
         return Flux.fromArray(MediaType.values()).map(KVWrapper::valueOf);
     }
 }
