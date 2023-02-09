@@ -12,7 +12,7 @@ import reactor.core.publisher.Flux;
 public class ConstantController {
 
     @GetMapping("media-types")
-    public Flux<KVWrapper<?, ?>> mediaTypes() {
+    public Flux<KVWrapper> mediaTypes() {
         return Flux.fromArray(MediaType.values()).map(KVWrapper::valueOf);
     }
 }

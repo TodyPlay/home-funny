@@ -1,7 +1,7 @@
 package com.home.funny.constant.wrapeper;
 
-public record KVWrapper<K, V>(K key, V val) {
-    public static <K, V> KVWrapper<K, V> valueOf(KVEnum<K, V> kv) {
-        return new KVWrapper<>(kv.key(), kv.val());
+public record KVWrapper(String key, String val) {
+    public static KVWrapper valueOf(KVEnum<?, ?> kv) {
+        return new KVWrapper(String.valueOf(kv.key()), String.valueOf(kv.val()));
     }
 }
