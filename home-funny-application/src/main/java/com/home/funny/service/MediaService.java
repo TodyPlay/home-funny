@@ -7,7 +7,6 @@ import com.home.funny.repository.HomeFunnyMediaTagMappingR2Repository;
 import com.home.funny.repository.HomeFunnyMediaTagR2Repository;
 import com.home.funny.repository.HomeFunnyMultiMediaR2Repository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -26,6 +25,9 @@ public class MediaService {
     }
 
     public Flux<HomeFunnyMultiMedia> all() {
-        // TODO: 2023/2/13  
+        return mediaR2Repository.findAll().flatMap(media -> mappingR2Repository.findByMediaId(media.getId()).collectList().map(map -> {
+            media.setMediaTagMappings(map.toArray(HomeFunnyMediaTagMapping[]::new));
+            return media;
+        }));
     }
 }
