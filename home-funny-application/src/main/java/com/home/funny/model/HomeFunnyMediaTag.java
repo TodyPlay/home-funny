@@ -1,17 +1,21 @@
 package com.home.funny.model;
 
-import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
+import lombok.Getter;
+import lombok.Setter;
 
-/**
- * 多媒体标签
- */
-@Data
-@Table("home_funny_media_tag")
+import javax.persistence.*;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "home_funny_media_tag")
 public class HomeFunnyMediaTag {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "name", length = 64)
     private String name;
+
 }

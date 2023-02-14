@@ -1,33 +1,30 @@
 package com.home.funny.service;
 
+import com.home.funny.dto.PageableDTO;
+import com.home.funny.dto.media.MediaQueryDTO;
 import com.home.funny.model.HomeFunnyMediaTag;
-import com.home.funny.model.HomeFunnyMediaTagMapping;
 import com.home.funny.model.HomeFunnyMultiMedia;
-import com.home.funny.repository.HomeFunnyMediaTagMappingR2Repository;
-import com.home.funny.repository.HomeFunnyMediaTagR2Repository;
-import com.home.funny.repository.HomeFunnyMultiMediaR2Repository;
+import com.home.funny.repository.HomeFunnyMediaTagRepository;
+import com.home.funny.repository.HomeFunnyMultiMediaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Service
 public class MediaService {
     @Autowired
-    private HomeFunnyMediaTagR2Repository tagR2Repository;
+    private HomeFunnyMediaTagRepository tagRepository;
     @Autowired
-    private HomeFunnyMediaTagMappingR2Repository mappingR2Repository;
-    @Autowired
-    private HomeFunnyMultiMediaR2Repository mediaR2Repository;
+    private HomeFunnyMultiMediaRepository homeFunnyMultiMediaRepository;
 
-    public Flux<HomeFunnyMediaTag> mediaTags() {
-        return tagR2Repository.findAll();
+    public List<HomeFunnyMediaTag> mediaTags() {
+        return tagRepository.findAll();
     }
 
-    public Flux<HomeFunnyMultiMedia> all() {
-        return mediaR2Repository.findAll().flatMap(media -> mappingR2Repository.findByMediaId(media.getId()).collectList().map(map -> {
-            media.setMediaTagMappings(map.toArray(HomeFunnyMediaTagMapping[]::new));
-            return media;
-        }));
+    public Page<HomeFunnyMultiMedia> findMedias(MediaQueryDTO query, PageableDTO page) {
+        return homeFunnyMultiMediaRepository.findAll(page.getPageRequest());
     }
+
 }

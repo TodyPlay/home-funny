@@ -15,7 +15,7 @@ insert into home_funny_multi_media
     ('宝贝计划11', '封面', 'VIDEO', '描述');
 
 insert into home_funny_media_tag_mapping
-    (media_id, tagId) VALUE
+    (media_id, tag_id) VALUE
     (1, 1),
     (1, 2),
     (1, 3),

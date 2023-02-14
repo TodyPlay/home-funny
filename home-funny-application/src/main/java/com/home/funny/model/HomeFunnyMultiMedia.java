@@ -1,23 +1,34 @@
 package com.home.funny.model;
 
-import com.home.funny.constant.MediaType;
-import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.MappedCollection;
-import org.springframework.data.relational.core.mapping.Table;
+import lombok.Getter;
+import lombok.Setter;
 
-/**
- * 多媒体类型
- */
-@Data
-@Table("home_funny_multi_media")
+import javax.persistence.*;
+import java.util.List;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "home_funny_multi_media")
 public class HomeFunnyMultiMedia {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "name", length = 64)
     private String name;
+
+    @Column(name = "cover", length = 128)
     private String cover;
+
+    @Column(name = "type", length = 8)
+    private String type;
+
+    @Column(name = "description", length = 128)
     private String description;
-    private MediaType type;
-    @MappedCollection(idColumn = "media_id")
-    private HomeFunnyMediaTagMapping[] mediaTagMappings;
+
+    @OneToMany(mappedBy = "multiMedia")
+    private List<HomeFunnyMediaTagMapping> tagMappings;
+
 }
