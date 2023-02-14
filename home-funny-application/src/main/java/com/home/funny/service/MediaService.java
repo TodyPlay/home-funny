@@ -24,7 +24,8 @@ public class MediaService {
     }
 
     public Page<HomeFunnyMultiMedia> findMedias(MediaQueryDTO query, PageableDTO page) {
-        return homeFunnyMultiMediaRepository.findAll(page.getPageRequest());
+
+        return homeFunnyMultiMediaRepository.findAll(query,page.getPageRequest());
     }
 
 }

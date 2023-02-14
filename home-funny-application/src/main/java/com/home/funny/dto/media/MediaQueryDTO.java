@@ -1,8 +1,10 @@
 package com.home.funny.dto.media;
 
+import com.home.funny.constant.MediaType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -14,10 +16,10 @@ public class MediaQueryDTO {
 
     private String name;
 
-    private String[] type;
+    private MediaType[] type;
 
     private String[] tags;
 
-    private Date[] date;
+    private LocalDate[] date;
 
 }

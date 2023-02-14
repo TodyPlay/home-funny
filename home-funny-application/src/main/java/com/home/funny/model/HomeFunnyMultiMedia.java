@@ -1,9 +1,12 @@
 package com.home.funny.model;
 
+import com.home.funny.constant.MediaType;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -22,8 +25,12 @@ public class HomeFunnyMultiMedia {
     @Column(name = "cover", length = 128)
     private String cover;
 
-    @Column(name = "type", length = 8)
-    private String type;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "media_type")
+    private MediaType mediaType;
+
+    @Column(name = "create_date")
+    private LocalDate createDate;
 
     @Column(name = "description", length = 128)
     private String description;
