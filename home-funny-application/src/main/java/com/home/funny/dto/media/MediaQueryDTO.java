@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * 多媒体查询
@@ -16,7 +15,7 @@ public class MediaQueryDTO {
 
     private String name;
 
-    private MediaType[] type;
+    private MediaType[] types;
 
     private String[] tags;
 
