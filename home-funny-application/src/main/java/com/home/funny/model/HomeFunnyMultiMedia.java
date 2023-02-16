@@ -24,6 +24,10 @@ public class HomeFunnyMultiMedia {
     @Column(name = "cover", length = 128)
     private String cover;
 
+    @ManyToOne
+    @JoinColumn(name = "cover_file_id")
+    private HomeFunnyFile coverFile;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "media_type")
     private MediaType mediaType;
@@ -36,5 +40,6 @@ public class HomeFunnyMultiMedia {
 
     @OneToMany(mappedBy = "multiMedia")
     private List<HomeFunnyMediaTagMapping> tagMappings;
+
 
 }

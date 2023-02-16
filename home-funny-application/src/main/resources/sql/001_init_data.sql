@@ -30,5 +30,8 @@ insert into home_funny_media_tag_mapping
     (4, 3),
     (5, 1),
     (5, 2),
-    (5, 3)
-;
+    (5, 3);
+
+insert into home_funny_file (file_group, file_name, file_path) VALUE
+    ('video', '计划.zip', '计划.zip'),
+    ('video', '计划2.zip', '计划2.zip')

@@ -21,20 +21,7 @@ public class HomeFunnyUserDetail {
     @Column(name = "password", length = 128)
     private String password;
 
-    @Column(name = "account_non_expired")
-    private Boolean accountNonExpired;
-
-    @Column(name = "account_non_locked")
-    private Boolean accountNonLocked;
-
-    @Column(name = "credentials_non_expired")
-    private Boolean credentialsNonExpired;
-
     @Column(name = "enabled")
     private Boolean enabled;
-
-    @Column(name = "authorities", length = 64)
-    private String authorities;
-
 
 }

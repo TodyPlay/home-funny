@@ -8,7 +8,9 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "home_funny_media_tag")
+@Table(name = "home_funny_media_tag", uniqueConstraints = {
+        @UniqueConstraint(name = "uc_homefunnymediatag_name", columnNames = {"name"})
+})
 public class HomeFunnyMediaTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

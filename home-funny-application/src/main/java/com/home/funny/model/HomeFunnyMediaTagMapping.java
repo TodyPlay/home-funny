@@ -9,7 +9,9 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "home_funny_media_tag_mapping")
+@Table(name = "home_funny_media_tag_mapping", uniqueConstraints = {
+        @UniqueConstraint(name = "uc_homefunnymediatagmapping", columnNames = {"media_id", "tag_id"})
+})
 public class HomeFunnyMediaTagMapping {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
