@@ -4,7 +4,7 @@ spring:
   datasource:
     username: root
     password: 123456
-    url: jdbc:mysql://192.168.253.128:3306/dev_jian
+    url: jdbc:mysql://192.168.182.128:3306/dev_jian
   jpa:
     show-sql: true
     hibernate:
