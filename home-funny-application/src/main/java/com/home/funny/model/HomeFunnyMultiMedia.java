@@ -27,7 +27,7 @@ public class HomeFunnyMultiMedia {
 
     @ManyToOne
     @JoinColumn(name = "cover_file_id")
-    private HomeFunnyFile coverFile;
+    private HomeFunnyStorage coverFile;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "media_type")

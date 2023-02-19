@@ -19,11 +19,11 @@ public class HomeFunnyMediaDetail {
     @JoinColumn(name = "media_id")
     private HomeFunnyMultiMedia multiMedia;
 
-    @Column(name = "order")
-    private Integer order;
+    @Column(name = "shorter")
+    private Integer shorter;
 
     @ManyToOne
-    @JoinColumn("file_id")
-    private HomeFunnyFile file;
+    @JoinColumn(name = "storage_id")
+    private HomeFunnyStorage storageId;
 
 }
