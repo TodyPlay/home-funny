@@ -22,12 +22,12 @@ public class HomeFunnyMultiMedia {
     @Column(name = "name", length = 64)
     private String name;
 
-    @Column(name = "cover", length = 128)
-    private String cover;
+    @Column(name = "cover_name", length = 128)
+    private String coverName;
 
     @ManyToOne
-    @JoinColumn(name = "cover_file_id")
-    private HomeFunnyStorage coverFile;
+    @JoinColumn(name = "cover_storage_id")
+    private HomeFunnyStorage coverStorage;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "media_type")

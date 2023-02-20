@@ -1,11 +1,12 @@
 insert into home_funny_media_tag (id, name) value (1, '血腥'), (2, '暴力'), (3, '文艺'), (4, '青春');
 
-insert into home_funny_file (id, file_group, file_name, file_path) VALUE
-    (1, 'video', '计划.zip', '计划.zip'),
-    (2, 'video', '计划2.zip', '计划2.zip');
+insert into home_funny_storage
+    (id, storage_group, storage_name, storage_path) value
+    (1, 'video', 'favicon.ico', 'favicon.ico'),
+    (2, 'video', 'favicon2.ico', 'favicon2.ico');
 
 insert into home_funny_multi_media
-    (id, name, cover, media_type, description, cover_file_id, create_date) VALUE
+(id, name, cover_name, media_type, description, cover_storage_id, create_date) VALUE
     (1, '宝贝计划1', '封面', 'VIDEO', '描述', 1, curdate()),
     (2, '宝贝计划2', '封面', 'VIDEO', '描述', 1, curdate()),
     (3, '宝贝计划3', '封面', 'VIDEO', '描述', 1, curdate()),
@@ -35,3 +36,4 @@ insert into home_funny_media_tag_mapping
     (5, 1),
     (5, 2),
     (5, 3);
+

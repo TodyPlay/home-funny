@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface HomeFunnyFileRepository extends JpaRepository<HomeFunnyStorage, Long> {
+public interface HomeFunnyStorageRepository extends JpaRepository<HomeFunnyStorage, Long> {
 }

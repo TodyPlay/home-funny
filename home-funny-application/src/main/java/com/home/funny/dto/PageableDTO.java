@@ -3,6 +3,7 @@ package com.home.funny.dto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.Collections;
@@ -14,11 +15,14 @@ import java.util.List;
 @Getter
 @Setter
 public class PageableDTO {
-    private int page;
-    private int size;
+    private Integer page;
+    private Integer size;
     private List<OrderDTO> orders;
 
-    public PageRequest getPageRequest() {
+    public Pageable getPageable() {
+        if (page == null || size == null) {
+            return Pageable.unpaged();
+        }
         return PageRequest.of(page, size, Sort.by(orders == null ? Collections.emptyList() : orders.stream().map(v -> new Sort.Order(v.getDirection(), v.getProperty())).toList()));
     }
 

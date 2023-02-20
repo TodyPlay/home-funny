@@ -63,7 +63,7 @@ public class MediaService {
             return query.distinct(true).where(predicates.toArray(new Predicate[0])).getRestriction();
         };
 
-        return homeFunnyMultiMediaRepository.findAll(sf, page.getPageRequest());
+        return homeFunnyMultiMediaRepository.findAll(sf, page.getPageable());
     }
 
 }
