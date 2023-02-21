@@ -17,13 +17,13 @@ public class HomeFunnyStorage {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "storage_name", length = 64)
+    @Column(name = "storage_name", length = 64, nullable = false)
     private String storageName;
 
-    @Column(name = "storage_group", length = 16)
+    @Column(name = "storage_group", length = 16, nullable = false)
     private String storageGroup;
 
-    @Column(name = "storage_path")
+    @Column(name = "storage_path", nullable = false)
     private String storagePath;
 
 }

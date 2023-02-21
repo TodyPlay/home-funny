@@ -1,17 +1,13 @@
 package com.home.funny.api.storage;
 
 import com.home.funny.service.StorageService;
-import io.minio.errors.MinioException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/v1/storage")
@@ -20,8 +16,13 @@ public class StorageController {
     @Autowired
     private StorageService storageService;
 
-    @GetMapping("/download/{id}")
-    public Resource download(@PathVariable("id") Long id) throws IOException, MinioException, NoSuchAlgorithmException, InvalidKeyException {
-        return storageService.download(id);
+    @GetMapping("/video/{id}")
+    public void video(@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        storageService.video(id, request, response);
+    }
+
+    @GetMapping("download/{id}")
+    public ResponseEntity<Resource> download(@PathVariable Long id, @RequestHeader(value = "Range", required = false) String range) throws Exception {
+        return storageService.download(id, range);
     }
 }
