@@ -2,15 +2,15 @@ package com.home.funny.service;
 
 import com.home.funny.model.HomeFunnyStorage;
 import com.home.funny.repository.HomeFunnyStorageRepository;
-import io.minio.*;
+import io.minio.GetObjectArgs;
+import io.minio.MinioClient;
+import io.minio.StatObjectArgs;
+import io.minio.StatObjectResponse;
 import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -43,6 +43,8 @@ public class StorageService {
 
         long length;
 
+        HttpStatus status;
+
         if (range != null && range.startsWith("bytes=")) {
             String range_ = range.replaceAll("bytes=", "");
 
@@ -57,29 +59,28 @@ public class StorageService {
                 rangeStart = Long.parseLong(range_2[0]);
                 rangeEnd = Long.parseLong(range_2[1]);
             }
-
+            status = (length = rangeEnd - rangeStart) == 0 ? HttpStatus.OK : HttpStatus.PARTIAL_CONTENT;
+            httpHeaders.set(HttpHeaders.ACCEPT_RANGES, "bytes");
+            httpHeaders.set(HttpHeaders.CONTENT_RANGE, String.format("bytes %d-%d/%d", rangeStart, rangeEnd, stat.size()));
         } else {
             rangeStart = 0;
             rangeEnd = stat.size() - 1;
+            status = HttpStatus.OK;
+            length = stat.size() - 1;
         }
 
-        length = rangeEnd - rangeStart;
-
         httpHeaders.setContentDisposition(ContentDisposition.attachment().filename(URLEncoder.encode(storage.getStorageName(), StandardCharsets.UTF_8)).build());
-        httpHeaders.set(HttpHeaders.ACCEPT_RANGES, "bytes");
-        httpHeaders.set(HttpHeaders.CONTENT_RANGE, String.format("bytes %d-%d/%d", rangeStart, rangeEnd, stat.size()));
         httpHeaders.setContentLength(length);
+        httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 
-
-        GetObjectResponse object = minioClient.getObject(GetObjectArgs.builder()
+        InputStream stream = length == 0 ? InputStream.nullInputStream() : minioClient.getObject(GetObjectArgs.builder()
                 .bucket(storage.getStorageGroup())
                 .object(storage.getStoragePath())
                 .offset(rangeStart)
                 .length(length)
                 .build());
 
-
-        return new ResponseEntity<>(new InputStreamResource(object), httpHeaders, HttpStatus.PARTIAL_CONTENT);
+        return new ResponseEntity<>(new InputStreamResource(stream), httpHeaders, status);
     }
 
     public void videoPreview(String bucketName, String path, HttpServletRequest request, HttpServletResponse res) throws Exception {
