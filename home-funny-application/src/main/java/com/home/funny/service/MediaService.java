@@ -66,4 +66,7 @@ public class MediaService {
         return homeFunnyMultiMediaRepository.findAll(sf, page.getPageable());
     }
 
+    public HomeFunnyMultiMedia findById(Long id) {
+        return homeFunnyMultiMediaRepository.findById(id).orElseThrow();
+    }
 }

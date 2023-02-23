@@ -15,6 +15,6 @@ public class StorageController {
 
     @GetMapping("download/{id}")
     public ResponseEntity<Resource> download(@PathVariable Long id, @RequestHeader(value = "Range", required = false) String range) throws Exception {
-        return storageService.download(id, range);
+        return storageService.download2(id, range);
     }
 }

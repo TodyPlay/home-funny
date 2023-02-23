@@ -31,60 +31,7 @@ public class StorageService {
     @Autowired
     private HomeFunnyStorageRepository storageRepository;
 
-    public ResponseEntity<Resource> download(Long id, String range) throws Exception {
-        HomeFunnyStorage storage = storageRepository.findById(id).orElseThrow();
-
-        StatObjectResponse stat = minioClient.statObject(StatObjectArgs.builder().bucket(storage.getStorageGroup()).object(storage.getStoragePath()).build());
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-
-        long rangeStart;
-
-        long rangeEnd;
-
-        long length;
-
-        HttpStatus status;
-
-        if (range != null && range.startsWith("bytes=")) {
-            String _range = range.replaceAll("bytes=", "");
-
-            if (_range.startsWith("-")) {
-                rangeStart = 0;
-                rangeEnd = Long.parseLong(_range.split("-")[0]);
-            } else if (_range.endsWith("-")) {
-                rangeStart = Long.parseLong(_range.split("-")[0]);
-                rangeEnd = stat.size() - 1;
-            } else {
-                String[] range_2 = _range.split("-");
-                rangeStart = Long.parseLong(range_2[0]);
-                rangeEnd = Long.parseLong(range_2[1]);
-            }
-            status = (length = rangeEnd - rangeStart) == 0 ? HttpStatus.OK : HttpStatus.PARTIAL_CONTENT;
-            httpHeaders.set(HttpHeaders.ACCEPT_RANGES, "bytes");
-            httpHeaders.set(HttpHeaders.CONTENT_RANGE, String.format("bytes %d-%d/%d", rangeStart, rangeEnd, stat.size()));
-        } else {
-            rangeStart = 0;
-            rangeEnd = stat.size() - 1;
-            status = HttpStatus.OK;
-            length = rangeEnd - rangeStart;
-        }
-
-        httpHeaders.setContentDisposition(ContentDisposition.attachment().filename(URLEncoder.encode(storage.getStorageName(), StandardCharsets.UTF_8)).build());
-        httpHeaders.setContentLength(length);
-        httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-
-        InputStream stream = length == 0 ? InputStream.nullInputStream() : minioClient.getObject(GetObjectArgs.builder()
-                .bucket(storage.getStorageGroup())
-                .object(storage.getStoragePath())
-                .offset(rangeStart)
-                .length(length)
-                .build());
-
-        return new ResponseEntity<>(new InputStreamResource(stream), httpHeaders, status);
-    }
-
-    public Object download_2_with_ranges(Long id, String range) throws Exception {
+    public ResponseEntity<Resource> download2(Long id, String range) throws Exception {
         HomeFunnyStorage storage = storageRepository.findById(id).orElseThrow();
 
         StatObjectResponse stat = minioClient.statObject(StatObjectArgs.builder().bucket(storage.getStorageGroup()).object(storage.getStoragePath()).build());
@@ -99,10 +46,11 @@ public class StorageService {
             return partialStorage(storage, stat, httpRanges.get(0));
         }
         // TODO: 2023/2/23 multi partial range
+        return ResponseEntity.ok().build();
     }
 
     @NotNull
-    private ResponseEntity<InputStreamResource> partialStorage(HomeFunnyStorage storage, StatObjectResponse stat, HttpRange range) throws ErrorResponseException, InsufficientDataException, InternalException, InvalidKeyException, InvalidResponseException, IOException, NoSuchAlgorithmException, ServerException, XmlParserException {
+    private ResponseEntity<Resource> partialStorage(HomeFunnyStorage storage, StatObjectResponse stat, HttpRange range) throws ErrorResponseException, InsufficientDataException, InternalException, InvalidKeyException, InvalidResponseException, IOException, NoSuchAlgorithmException, ServerException, XmlParserException {
 
         long rangeStart = range.getRangeStart(stat.size());
         long rangeEnd = range.getRangeEnd(stat.size());
@@ -126,7 +74,7 @@ public class StorageService {
     }
 
     @NotNull
-    private ResponseEntity<InputStreamResource> fullStorage(HomeFunnyStorage storage, StatObjectResponse stat) throws ErrorResponseException, InsufficientDataException, InternalException, InvalidKeyException, InvalidResponseException, IOException, NoSuchAlgorithmException, ServerException, XmlParserException {
+    private ResponseEntity<Resource> fullStorage(HomeFunnyStorage storage, StatObjectResponse stat) throws ErrorResponseException, InsufficientDataException, InternalException, InvalidKeyException, InvalidResponseException, IOException, NoSuchAlgorithmException, ServerException, XmlParserException {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentDisposition(ContentDisposition.attachment().filename(URLEncoder.encode(storage.getStorageName(), StandardCharsets.UTF_8)).build());
         httpHeaders.setContentLength(stat.size());
