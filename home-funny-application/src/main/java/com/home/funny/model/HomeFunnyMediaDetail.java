@@ -29,6 +29,6 @@ public class HomeFunnyMediaDetail {
 
     @ManyToOne
     @JoinColumn(name = "storage_id")
-    private HomeFunnyStorage storageId;
+    private HomeFunnyStorage storage;
 
 }
