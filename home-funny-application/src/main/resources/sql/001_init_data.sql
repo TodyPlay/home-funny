@@ -37,3 +37,29 @@ insert into home_funny_media_tag_mapping
     (5, 2),
     (5, 3);
 
+insert into home_funny_media_detail
+    (id, media_id, detail_name, shorter, storage_id) value
+    (1, 1, 'detail_name', 1, 1),
+    (2, 1, 'detail_name', 2, 1),
+    (3, 2, 'detail_name', 1, 1),
+    (4, 2, 'detail_name', 1, 1),
+    (5, 3, 'detail_name', 2, 1),
+    (6, 3, 'detail_name', 1, 1),
+    (7, 4, 'detail_name', 2, 1),
+    (8, 4, 'detail_name', 1, 1),
+    (9, 5, 'detail_name', 2, 1),
+    (10, 5, 'detail_name', 1, 1),
+    (11, 6, 'detail_name', 2, 1),
+    (12, 6, 'detail_name', 1, 1),
+    (13, 7, 'detail_name', 2, 1),
+    (14, 7, 'detail_name', 1, 1),
+    (15, 8, 'detail_name', 2, 1),
+    (16, 8, 'detail_name', 1, 1),
+    (17, 9, 'detail_name', 2, 1),
+    (18, 9, 'detail_name', 1, 1),
+    (19, 10, 'detail_name', 1, 1),
+    (20, 10, 'detail_name', 2, 1),
+    (21, 11, 'detail_name', 1, 1),
+    (22, 11, 'detail_name', 2, 1);
+
+
