@@ -3,6 +3,7 @@ package com.home.funny.model;
 import com.home.funny.constant.MediaType;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SortNatural;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -42,6 +43,7 @@ public class HomeFunnyMultiMedia {
     private List<HomeFunnyMediaTagMapping> tagMappings;
 
     @OneToMany(mappedBy = "multiMedia")
+    @OrderBy("shorter")
     private List<HomeFunnyMediaDetail> mediaDetails;
 
 }
