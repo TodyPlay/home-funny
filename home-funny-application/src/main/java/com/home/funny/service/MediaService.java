@@ -55,8 +55,12 @@ public class MediaService {
                 predicates.add(tagJoin.get("name").as(String.class).in((Object[]) parameter.getTags()));
             }
 
-            if (parameter.getDate() != null && parameter.getDate().length == 2) {
-                predicates.add(cb.between(root.get("createDate").as(LocalDate.class), parameter.getDate()[0], parameter.getDate()[1]));
+            if (parameter.getDateStart() != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("createDate").as(LocalDate.class), parameter.getDateStart()));
+            }
+
+            if (parameter.getDateEnd() != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("createDate").as(LocalDate.class), parameter.getDateEnd()));
             }
 
 

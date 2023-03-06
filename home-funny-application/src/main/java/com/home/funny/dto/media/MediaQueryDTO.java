@@ -19,6 +19,8 @@ public class MediaQueryDTO {
 
     private String[] tags;
 
-    private LocalDate[] date;
+    private LocalDate dateStart;
+
+    private LocalDate dateEnd;
 
 }
