@@ -2,10 +2,7 @@ package com.home.funny.service;
 
 import com.home.funny.model.HomeFunnyStorage;
 import com.home.funny.repository.HomeFunnyStorageRepository;
-import io.minio.GetObjectArgs;
-import io.minio.MinioClient;
-import io.minio.StatObjectArgs;
-import io.minio.StatObjectResponse;
+import io.minio.*;
 import io.minio.errors.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +10,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -87,4 +85,8 @@ public class StorageService {
         return new ResponseEntity<>(new InputStreamResource(stream), httpHeaders, HttpStatus.OK);
     }
 
+    public ObjectWriteResponse upload(MultipartFile part) throws Exception {
+        // TODO: 2023/3/10 落库
+        return minioClient.putObject(PutObjectArgs.builder().bucket("video").object(part.getOriginalFilename()).stream(part.getInputStream(), part.getSize(), 100 * 1024 * 1024).build());
+    }
 }
