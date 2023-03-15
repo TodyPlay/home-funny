@@ -20,6 +20,8 @@ public class MinioClientConfiguration {
 
     private String secret;
 
+    private String budget;
+
     @Bean
     public MinioClient minioClient() {
         return MinioClient.builder().endpoint(endpoint).credentials(access, secret).build();

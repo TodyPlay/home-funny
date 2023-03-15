@@ -1,5 +1,6 @@
 package com.home.funny.service;
 
+import com.home.funny.config.MinioClientConfiguration;
 import com.home.funny.model.HomeFunnyStorage;
 import com.home.funny.repository.HomeFunnyStorageRepository;
 import io.minio.*;
@@ -10,6 +11,8 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.IdGenerator;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -19,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class StorageService {
@@ -85,8 +89,18 @@ public class StorageService {
         return new ResponseEntity<>(new InputStreamResource(stream), httpHeaders, HttpStatus.OK);
     }
 
-    public ObjectWriteResponse upload(MultipartFile part) throws Exception {
-        // TODO: 2023/3/10 落库
-        return minioClient.putObject(PutObjectArgs.builder().bucket("video").object(part.getOriginalFilename()).stream(part.getInputStream(), part.getSize(), 100 * 1024 * 1024).build());
+    @Autowired
+    private MinioClientConfiguration minioConfig;
+
+    @Transactional
+    public HomeFunnyStorage upload(MultipartFile part) throws Exception {
+        HomeFunnyStorage storage = new HomeFunnyStorage();
+        storage.setStorageGroup(minioConfig.getBudget());
+        storage.setStoragePath(UUID.randomUUID().toString());
+        storage.setStorageName(part.getOriginalFilename());
+        storageRepository.save(storage);
+
+        minioClient.putObject(PutObjectArgs.builder().bucket(storage.getStorageGroup()).object(storage.getStoragePath()).stream(part.getInputStream(), part.getSize(), 100 * 1024 * 1024).build());
+        return storage;
     }
 }

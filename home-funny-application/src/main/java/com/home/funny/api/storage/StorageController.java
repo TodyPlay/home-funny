@@ -1,7 +1,7 @@
 package com.home.funny.api.storage;
 
+import com.home.funny.model.HomeFunnyStorage;
 import com.home.funny.service.StorageService;
-import io.minio.ObjectWriteResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class StorageController {
     }
 
     @PostMapping("upload")
-    public String upload(@RequestParam("file") MultipartFile part) throws Exception {
-        return storageService.upload(part).object();
+    public HomeFunnyStorage upload(@RequestParam("file") MultipartFile part) throws Exception {
+        return storageService.upload(part);
     }
 }
