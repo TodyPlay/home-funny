@@ -1,7 +1,9 @@
 package com.home.funny.service;
 
 import com.home.funny.config.MinioClientConfiguration;
-import com.home.funny.model.HomeFunnyStorage;
+import com.home.funny.model.converter.HomeFunnyStorageMapper;
+import com.home.funny.model.dto.HomeFunnyStorageDto;
+import com.home.funny.model.po.HomeFunnyStorage;
 import com.home.funny.repository.HomeFunnyStorageRepository;
 import io.minio.*;
 import io.minio.errors.*;
@@ -12,7 +14,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.IdGenerator;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -32,6 +33,10 @@ public class StorageService {
 
     @Autowired
     private HomeFunnyStorageRepository storageRepository;
+    @Autowired
+    private MinioClientConfiguration minioConfig;
+    @Autowired
+    private HomeFunnyStorageMapper homeFunnyStorageMapper;
 
     public ResponseEntity<Resource> download2(Long id, String range) throws Exception {
         HomeFunnyStorage storage = storageRepository.findById(id).orElseThrow();
@@ -89,9 +94,6 @@ public class StorageService {
         return new ResponseEntity<>(new InputStreamResource(stream), httpHeaders, HttpStatus.OK);
     }
 
-    @Autowired
-    private MinioClientConfiguration minioConfig;
-
     @Transactional
     public HomeFunnyStorage upload(MultipartFile part) throws Exception {
         HomeFunnyStorage storage = new HomeFunnyStorage();
@@ -102,5 +104,9 @@ public class StorageService {
 
         minioClient.putObject(PutObjectArgs.builder().bucket(storage.getStorageGroup()).object(storage.getStoragePath()).stream(part.getInputStream(), part.getSize(), 100 * 1024 * 1024).build());
         return storage;
+    }
+
+    public HomeFunnyStorageDto storage(Long id) {
+        return storageRepository.findById(id).map(homeFunnyStorageMapper::toDto).orElseThrow();
     }
 }

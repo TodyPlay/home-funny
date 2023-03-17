@@ -1,4 +1,4 @@
-package com.home.funny.dto;
+package com.home.funny.model.dto.paging;
 
 import lombok.Getter;
 import lombok.Setter;

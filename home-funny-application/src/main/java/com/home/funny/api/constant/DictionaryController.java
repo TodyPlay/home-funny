@@ -1,6 +1,6 @@
 package com.home.funny.api.constant;
 
-import com.home.funny.model.HomeFunnyMediaTag;
+import com.home.funny.model.po.HomeFunnyMediaTag;
 import com.home.funny.service.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

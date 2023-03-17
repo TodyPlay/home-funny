@@ -1,6 +1,6 @@
 package com.home.funny.repository;
 
-import com.home.funny.model.HomeFunnyMediaTag;
+import com.home.funny.model.po.HomeFunnyMediaTag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

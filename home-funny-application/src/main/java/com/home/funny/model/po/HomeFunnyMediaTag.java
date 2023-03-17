@@ -1,4 +1,4 @@
-package com.home.funny.model;
+package com.home.funny.model.po;
 
 import lombok.Getter;
 import lombok.Setter;

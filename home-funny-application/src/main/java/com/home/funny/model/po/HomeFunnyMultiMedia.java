@@ -1,9 +1,8 @@
-package com.home.funny.model;
+package com.home.funny.model.po;
 
 import com.home.funny.constant.MediaType;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.SortNatural;
 
 import javax.persistence.*;
 import java.time.LocalDate;

@@ -1,6 +1,7 @@
 package com.home.funny.api.storage;
 
-import com.home.funny.model.HomeFunnyStorage;
+import com.home.funny.model.po.HomeFunnyStorage;
+import com.home.funny.model.dto.HomeFunnyStorageDto;
 import com.home.funny.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -23,5 +24,10 @@ public class StorageController {
     @PostMapping("upload")
     public HomeFunnyStorage upload(@RequestParam("file") MultipartFile part) throws Exception {
         return storageService.upload(part);
+    }
+
+    @PostMapping("storage/{id}")
+    public HomeFunnyStorageDto storage(@PathVariable Long id) {
+        return storageService.storage(id);
     }
 }

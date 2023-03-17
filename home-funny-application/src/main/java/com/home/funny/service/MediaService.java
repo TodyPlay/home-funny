@@ -1,12 +1,17 @@
 package com.home.funny.service;
 
 import com.home.funny.constant.MediaType;
-import com.home.funny.dto.HomeFunnyMultiMediaDto;
-import com.home.funny.dto.PageableDTO;
-import com.home.funny.dto.media.MediaQueryDTO;
-import com.home.funny.model.HomeFunnyMediaTag;
-import com.home.funny.model.HomeFunnyMediaTagMapping;
-import com.home.funny.model.HomeFunnyMultiMedia;
+import com.home.funny.model.converter.HomeFunnyMediaDetailMapper;
+import com.home.funny.model.converter.HomeFunnyMultiMediaMapper;
+import com.home.funny.model.dto.HomeFunnyMediaDetailDto;
+import com.home.funny.model.dto.HomeFunnyMultiMediaDto;
+import com.home.funny.model.dto.paging.PageableDTO;
+import com.home.funny.model.dto.query.MediaQueryDTO;
+import com.home.funny.model.po.HomeFunnyMediaDetail;
+import com.home.funny.model.po.HomeFunnyMediaTag;
+import com.home.funny.model.po.HomeFunnyMediaTagMapping;
+import com.home.funny.model.po.HomeFunnyMultiMedia;
+import com.home.funny.repository.HomeFunnyMediaDetailRepository;
 import com.home.funny.repository.HomeFunnyMediaTagRepository;
 import com.home.funny.repository.HomeFunnyMultiMediaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +33,12 @@ public class MediaService {
     private HomeFunnyMediaTagRepository tagRepository;
     @Autowired
     private HomeFunnyMultiMediaRepository homeFunnyMultiMediaRepository;
+    @Autowired
+    private HomeFunnyMediaDetailRepository homeFunnyMediaDetailRepository;
+    @Autowired
+    private HomeFunnyMultiMediaMapper homeFunnyMultiMediaMapper;
+    @Autowired
+    private HomeFunnyMediaDetailMapper homeFunnyMediaDetailMapper;
 
     public List<HomeFunnyMediaTag> mediaTags() {
         return tagRepository.findAll();
@@ -68,13 +79,15 @@ public class MediaService {
             return query.distinct(true).where(predicates.toArray(new Predicate[0])).getRestriction();
         };
 
-        return homeFunnyMultiMediaRepository.findAll(sf, page.getPageable())
-                .map(v -> new HomeFunnyMultiMediaDto(v.getId(), v.getName(), v.getCoverName(), v.getMediaType(), v.getCreateDate(), v.getDescription()));
+        return homeFunnyMultiMediaRepository.findAll(sf, page.getPageable()).map(homeFunnyMultiMediaMapper::toDto);
     }
 
     public HomeFunnyMultiMediaDto findById(Long id) {
-        return homeFunnyMultiMediaRepository.findById(id)
-                .map(v -> new HomeFunnyMultiMediaDto(v.getId(), v.getName(), v.getCoverName(), v.getMediaType(), v.getCreateDate(), v.getDescription()))
-                .orElseThrow();
+        return homeFunnyMultiMediaRepository.findById(id).map(homeFunnyMultiMediaMapper::toDto).orElseThrow();
+    }
+
+    public List<HomeFunnyMediaDetailDto> mediaDetailByMediaId(Long id) {
+        List<HomeFunnyMediaDetail> mediaDetails = homeFunnyMediaDetailRepository.findByMultiMediaId(id);
+        return mediaDetails.stream().map(homeFunnyMediaDetailMapper::toDto).toList();
     }
 }

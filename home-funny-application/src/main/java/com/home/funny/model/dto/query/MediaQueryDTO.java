@@ -1,4 +1,4 @@
-package com.home.funny.dto.media;
+package com.home.funny.model.dto.query;
 
 import com.home.funny.constant.MediaType;
 import lombok.Getter;
