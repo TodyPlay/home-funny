@@ -1,5 +1,6 @@
 package com.home.funny.api.media;
 
+import com.home.funny.dto.HomeFunnyMultiMediaDto;
 import com.home.funny.dto.PageableDTO;
 import com.home.funny.dto.media.MediaQueryDTO;
 import com.home.funny.model.HomeFunnyMultiMedia;
@@ -16,12 +17,12 @@ public class MultiMediaController {
     private MediaService mediaService;
 
     @PostMapping("medias")
-    public Page<HomeFunnyMultiMedia> medias(@RequestBody MediaQueryDTO query, PageableDTO page) {
+    public Page<HomeFunnyMultiMediaDto> medias(@RequestBody MediaQueryDTO query, PageableDTO page) {
         return mediaService.findMedias(query, page);
     }
 
     @PostMapping("medias/{id}")
-    public HomeFunnyMultiMedia media(@PathVariable Long id){
+    public HomeFunnyMultiMediaDto media(@PathVariable Long id){
         return mediaService.findById(id);
     }
 }

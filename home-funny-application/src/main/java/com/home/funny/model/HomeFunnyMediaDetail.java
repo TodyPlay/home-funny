@@ -1,6 +1,5 @@
 package com.home.funny.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +20,6 @@ public class HomeFunnyMediaDetail {
 
     @ManyToOne
     @JoinColumn(name = "media_id")
-    @JsonIgnore
     private HomeFunnyMultiMedia multiMedia;
 
     @Column(name = "shorter")

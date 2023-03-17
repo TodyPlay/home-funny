@@ -1,6 +1,7 @@
 package com.home.funny.service;
 
 import com.home.funny.constant.MediaType;
+import com.home.funny.dto.HomeFunnyMultiMediaDto;
 import com.home.funny.dto.PageableDTO;
 import com.home.funny.dto.media.MediaQueryDTO;
 import com.home.funny.model.HomeFunnyMediaTag;
@@ -32,7 +33,7 @@ public class MediaService {
         return tagRepository.findAll();
     }
 
-    public Page<HomeFunnyMultiMedia> findMedias(MediaQueryDTO parameter, PageableDTO page) {
+    public Page<HomeFunnyMultiMediaDto> findMedias(MediaQueryDTO parameter, PageableDTO page) {
         Specification<HomeFunnyMultiMedia> sf = (root, query, cb) -> {
 
             Join<HomeFunnyMultiMedia, HomeFunnyMediaTagMapping> mapingJoin = root.join("tagMappings", JoinType.LEFT);
@@ -67,10 +68,13 @@ public class MediaService {
             return query.distinct(true).where(predicates.toArray(new Predicate[0])).getRestriction();
         };
 
-        return homeFunnyMultiMediaRepository.findAll(sf, page.getPageable());
+        return homeFunnyMultiMediaRepository.findAll(sf, page.getPageable())
+                .map(v -> new HomeFunnyMultiMediaDto(v.getId(), v.getName(), v.getCoverName(), v.getMediaType(), v.getCreateDate(), v.getDescription()));
     }
 
-    public HomeFunnyMultiMedia findById(Long id) {
-        return homeFunnyMultiMediaRepository.findById(id).orElseThrow();
+    public HomeFunnyMultiMediaDto findById(Long id) {
+        return homeFunnyMultiMediaRepository.findById(id)
+                .map(v -> new HomeFunnyMultiMediaDto(v.getId(), v.getName(), v.getCoverName(), v.getMediaType(), v.getCreateDate(), v.getDescription()))
+                .orElseThrow();
     }
 }
