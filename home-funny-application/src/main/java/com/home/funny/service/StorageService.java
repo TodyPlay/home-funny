@@ -109,4 +109,17 @@ public class StorageService {
     public HomeFunnyStorageDto storage(Long id) {
         return storageRepository.findById(id).map(homeFunnyStorageMapper::toDto).orElseThrow();
     }
+
+    @Transactional
+    public void delete(Long id) {
+        storageRepository.findById(id).ifPresent(store -> {
+            storageRepository.deleteById(store.getId());
+            try {
+                minioClient.removeObject(RemoveObjectArgs.builder().bucket(store.getStorageGroup()).object(store.getStoragePath()).build());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+    }
 }

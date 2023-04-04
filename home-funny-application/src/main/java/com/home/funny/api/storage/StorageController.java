@@ -1,7 +1,7 @@
 package com.home.funny.api.storage;
 
-import com.home.funny.model.po.HomeFunnyStorage;
 import com.home.funny.model.dto.HomeFunnyStorageDto;
+import com.home.funny.model.po.HomeFunnyStorage;
 import com.home.funny.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -29,5 +29,10 @@ public class StorageController {
     @PostMapping("storage/{id}")
     public HomeFunnyStorageDto storage(@PathVariable Long id) {
         return storageService.storage(id);
+    }
+
+    @DeleteMapping("{id}")
+    public void remove(@PathVariable Long id) {
+        storageService.delete(id);
     }
 }
