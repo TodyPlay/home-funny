@@ -38,11 +38,11 @@ public class HomeFunnyMultiMedia {
     @Column(name = "description", length = 128)
     private String description;
 
-    @OneToMany(mappedBy = "multiMedia")
+    @OneToMany(mappedBy = HomeFunnyMediaTagMapping_.MULTI_MEDIA)
     private List<HomeFunnyMediaTagMapping> tagMappings;
 
-    @OneToMany(mappedBy = "multiMedia")
-    @OrderBy("shorter")
+    @OneToMany(mappedBy = HomeFunnyMediaDetail_.MULTI_MEDIA)
+    @OrderBy(HomeFunnyMediaDetail_.SORTER)
     private List<HomeFunnyMediaDetail> mediaDetails;
 
 }

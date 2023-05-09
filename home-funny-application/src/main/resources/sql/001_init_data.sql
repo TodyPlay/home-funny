@@ -38,7 +38,7 @@ insert into home_funny_media_tag_mapping
     (5, 3);
 
 insert into home_funny_media_detail
-    (id, media_id, detail_name, shorter, storage_id) value
+    (id, media_id, detail_name, sorter, storage_id) value
     (1, 1, 'detail_name', 1, 1),
     (2, 1, 'detail_name', 2, 1),
     (3, 2, 'detail_name', 1, 1),

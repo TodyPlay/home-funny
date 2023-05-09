@@ -22,8 +22,8 @@ public class HomeFunnyMediaDetail {
     @JoinColumn(name = "media_id")
     private HomeFunnyMultiMedia multiMedia;
 
-    @Column(name = "shorter")
-    private Integer shorter;
+    @Column(name = "sorter")
+    private Integer sorter;
 
     @ManyToOne
     @JoinColumn(name = "storage_id")

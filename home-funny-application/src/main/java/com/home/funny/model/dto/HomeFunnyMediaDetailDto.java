@@ -7,5 +7,5 @@ import java.io.Serializable;
 /**
  * A DTO for the {@link HomeFunnyMediaDetail} entity
  */
-public record HomeFunnyMediaDetailDto(Long id, String detailName, Integer shorter, HomeFunnyStorageDto storage) implements Serializable {
+public record HomeFunnyMediaDetailDto(Long id, String detailName, Integer sorter, HomeFunnyStorageDto storage) implements Serializable {
 }
