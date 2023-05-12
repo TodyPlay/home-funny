@@ -6,18 +6,18 @@ insert into home_funny_storage
     (2, 'video', 'favicon2.ico', 'favicon2.ico');
 
 insert into home_funny_multi_media
-(id, name, cover_name, media_type, description, cover_storage_id, create_date) VALUE
-    (1, '宝贝计划1', '封面', 'VIDEO', '描述', 1, curdate()),
-    (2, '宝贝计划2', '封面', 'VIDEO', '描述', 1, curdate()),
-    (3, '宝贝计划3', '封面', 'VIDEO', '描述', 1, curdate()),
-    (4, '宝贝计划4', '封面', 'VIDEO', '描述', 1, curdate()),
-    (5, '宝贝计划5', '封面', 'VIDEO', '描述', 1, curdate()),
-    (6, '宝贝计划6', '封面', 'VIDEO', '描述', 1, curdate()),
-    (7, '宝贝计划7', '封面', 'VIDEO', '描述', 1, curdate()),
-    (8, '宝贝计划8', '封面', 'VIDEO', '描述', 1, curdate()),
-    (9, '宝贝计划9', '封面', 'VIDEO', '描述', 1, curdate()),
-    (10, '宝贝计划10', '封面', 'VIDEO', '描述', 1, curdate()),
-    (11, '宝贝计划11', '封面', 'VIDEO', '描述', 1, curdate());
+    (id, name, media_type, description, cover_storage_id, create_date) VALUE
+    (1, '宝贝计划1', 'VIDEO', '描述', 1, curdate()),
+    (2, '宝贝计划2', 'VIDEO', '描述', 1, curdate()),
+    (3, '宝贝计划3', 'VIDEO', '描述', 1, curdate()),
+    (4, '宝贝计划4', 'VIDEO', '描述', 1, curdate()),
+    (5, '宝贝计划5', 'VIDEO', '描述', 1, curdate()),
+    (6, '宝贝计划6', 'VIDEO', '描述', 1, curdate()),
+    (7, '宝贝计划7', 'VIDEO', '描述', 1, curdate()),
+    (8, '宝贝计划8', 'VIDEO', '描述', 1, curdate()),
+    (9, '宝贝计划9', 'VIDEO', '描述', 1, curdate()),
+    (10, '宝贝计划10', 'VIDEO', '描述', 1, curdate()),
+    (11, '宝贝计划11', 'VIDEO', '描述', 1, curdate());
 
 insert into home_funny_media_tag_mapping
     (media_id, tag_id) VALUE

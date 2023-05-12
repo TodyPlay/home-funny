@@ -7,6 +7,7 @@ import com.home.funny.model.po.HomeFunnyStorage;
 import com.home.funny.repository.HomeFunnyStorageRepository;
 import io.minio.*;
 import io.minio.errors.*;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -26,7 +27,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class StorageService {
+@Slf4j
+public class HomeFunnyStorageService {
 
     @Autowired
     private MinioClient minioClient;
@@ -41,7 +43,13 @@ public class StorageService {
     public ResponseEntity<Resource> download2(Long id, String range) throws Exception {
         HomeFunnyStorage storage = storageRepository.findById(id).orElseThrow();
 
-        StatObjectResponse stat = minioClient.statObject(StatObjectArgs.builder().bucket(storage.getStorageGroup()).object(storage.getStoragePath()).build());
+        StatObjectResponse stat;
+        try {
+            stat = minioClient.statObject(StatObjectArgs.builder().bucket(storage.getStorageGroup()).object(storage.getStoragePath()).build());
+        } catch (ErrorResponseException e) {
+            log.error(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
 
         List<HttpRange> httpRanges = HttpRange.parseRanges(range);
 

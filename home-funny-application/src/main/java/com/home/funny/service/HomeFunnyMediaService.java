@@ -10,10 +10,12 @@ import com.home.funny.model.po.*;
 import com.home.funny.repository.HomeFunnyMediaDetailRepository;
 import com.home.funny.repository.HomeFunnyMediaTagRepository;
 import com.home.funny.repository.HomeFunnyMultiMediaRepository;
+import com.home.funny.repository.HomeFunnyStorageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Join;
@@ -23,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MediaService {
+public class HomeFunnyMediaService {
     @Autowired
     private HomeFunnyMediaTagRepository tagRepository;
     @Autowired
@@ -34,6 +36,10 @@ public class MediaService {
     private HomeFunnyMultiMediaMapper homeFunnyMultiMediaMapper;
     @Autowired
     private HomeFunnyMediaDetailMapper homeFunnyMediaDetailMapper;
+    @Autowired
+    private HomeFunnyStorageRepository homeFunnyStorageRepository;
+    @Autowired
+    private HomeFunnyMediaDetailsService homeFunnyMediaDetailsService;
 
     public List<HomeFunnyMediaTag> mediaTags() {
         return tagRepository.findAll();
@@ -76,10 +82,6 @@ public class MediaService {
         return homeFunnyMultiMediaRepository.findAll(sf, page.getPageable()).map(homeFunnyMultiMediaMapper::toDto);
     }
 
-    public Page<HomeFunnyMultiMediaDto> findMedias2(MediaQueryDTO parameter, PageableDTO page) {
-        return null;
-    }
-
     public HomeFunnyMultiMediaDto findById(Long id) {
         return homeFunnyMultiMediaRepository.findById(id).map(homeFunnyMultiMediaMapper::toDto).orElseThrow();
     }
@@ -87,5 +89,29 @@ public class MediaService {
     public List<HomeFunnyMediaDetailDto> mediaDetailByMediaId(Long id) {
         List<HomeFunnyMediaDetail> mediaDetails = homeFunnyMediaDetailRepository.findByMultiMediaId(id);
         return mediaDetails.stream().map(homeFunnyMediaDetailMapper::toDto).toList();
+    }
+
+    @Transactional
+    public HomeFunnyMultiMediaDto saveOrUpdate(HomeFunnyMultiMediaDto homeFunnyMediaDetailDto) {
+        HomeFunnyMultiMedia entity = homeFunnyMultiMediaMapper.toEntity(homeFunnyMediaDetailDto);
+
+        HomeFunnyMultiMedia homeFunnyMultiMedia = saveOrUpdate(entity);
+
+        return homeFunnyMultiMediaMapper.toDto(homeFunnyMultiMedia);
+
+    }
+
+    @Transactional
+    public HomeFunnyMultiMedia saveOrUpdate(HomeFunnyMultiMedia homeFunnyMultiMedia) {
+
+        if (homeFunnyMultiMedia.getMediaDetails() != null && homeFunnyMultiMedia.getMediaDetails().size() > 0) {
+            homeFunnyMediaDetailsService.saveOrUpdate(homeFunnyMultiMedia.getMediaDetails());
+        }
+
+        if (homeFunnyMultiMedia.getCoverStorage() != null) {
+            homeFunnyStorageRepository.save(homeFunnyMultiMedia.getCoverStorage());
+        }
+
+        return homeFunnyMultiMediaRepository.save(homeFunnyMultiMedia);
     }
 }

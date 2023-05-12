@@ -12,9 +12,9 @@ import java.util.List;
  */
 public record HomeFunnyMultiMediaDto(Long id,
                                      String name,
-                                     String coverName,
                                      MediaType mediaType,
                                      LocalDate createDate,
                                      String description,
-                                     List<HomeFunnyMediaDetailDto> mediaDetails) implements Serializable {
+                                     List<HomeFunnyMediaDetailDto> mediaDetails,
+                                     HomeFunnyStorageDto coverStorage) implements Serializable {
 }

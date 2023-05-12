@@ -4,7 +4,7 @@ import com.home.funny.model.dto.HomeFunnyMultiMediaDto;
 import com.home.funny.model.dto.paging.PageableDTO;
 import com.home.funny.model.dto.query.MediaQueryDTO;
 import com.home.funny.model.dto.HomeFunnyMediaDetailDto;
-import com.home.funny.service.MediaService;
+import com.home.funny.service.HomeFunnyMediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -16,20 +16,25 @@ import java.util.List;
 public class MultiMediaController {
 
     @Autowired
-    private MediaService mediaService;
+    private HomeFunnyMediaService homeFunnyMediaService;
 
     @PostMapping("medias")
     public Page<HomeFunnyMultiMediaDto> medias(@RequestBody MediaQueryDTO query, PageableDTO page) {
-        return mediaService.findMedias(query, page);
+        return homeFunnyMediaService.findMedias(query, page);
     }
 
     @PostMapping("medias/{id}")
     public HomeFunnyMultiMediaDto media(@PathVariable Long id) {
-        return mediaService.findById(id);
+        return homeFunnyMediaService.findById(id);
     }
 
     @PostMapping("media-detail-by-media-id/{id}")
     public List<HomeFunnyMediaDetailDto> mediaDetailByMediaId(@PathVariable Long id) {
-        return mediaService.mediaDetailByMediaId(id);
+        return homeFunnyMediaService.mediaDetailByMediaId(id);
+    }
+
+    @PostMapping("save")
+    public HomeFunnyMultiMediaDto save(@RequestBody HomeFunnyMultiMediaDto homeFunnyMediaDetailDto) {
+        return homeFunnyMediaService.saveOrUpdate(homeFunnyMediaDetailDto);
     }
 }

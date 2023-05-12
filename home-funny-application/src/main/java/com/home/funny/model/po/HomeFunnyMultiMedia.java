@@ -21,9 +21,6 @@ public class HomeFunnyMultiMedia {
     @Column(name = "name", length = 64)
     private String name;
 
-    @Column(name = "cover_name", length = 128)
-    private String coverName;
-
     @ManyToOne
     @JoinColumn(name = "cover_storage_id")
     private HomeFunnyStorage coverStorage;
