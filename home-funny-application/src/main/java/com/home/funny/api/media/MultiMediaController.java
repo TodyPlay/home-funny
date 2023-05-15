@@ -7,6 +7,7 @@ import com.home.funny.model.dto.HomeFunnyMediaDetailDto;
 import com.home.funny.service.HomeFunnyMediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +35,12 @@ public class MultiMediaController {
     }
 
     @PostMapping("save")
-    public HomeFunnyMultiMediaDto save(@RequestBody HomeFunnyMultiMediaDto homeFunnyMediaDetailDto) {
+    public HomeFunnyMultiMediaDto save(@RequestBody @Validated HomeFunnyMultiMediaDto homeFunnyMediaDetailDto) {
         return homeFunnyMediaService.saveOrUpdate(homeFunnyMediaDetailDto);
+    }
+
+    @PostMapping("delete/{id}")
+    public void delete(@PathVariable Long id) {
+        homeFunnyMediaService.delete(id);
     }
 }

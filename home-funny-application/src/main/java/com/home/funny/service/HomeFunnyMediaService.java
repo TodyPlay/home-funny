@@ -23,6 +23,7 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HomeFunnyMediaService {
@@ -113,5 +114,22 @@ public class HomeFunnyMediaService {
         }
 
         return homeFunnyMultiMediaRepository.save(homeFunnyMultiMedia);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Optional<HomeFunnyMultiMedia> byId = homeFunnyMultiMediaRepository.findById(id);
+
+        byId.ifPresent(media -> {
+            List<HomeFunnyMediaDetail> details = media.getMediaDetails();
+            if (details.size() > 0) {
+                homeFunnyMediaDetailsService.delete(details);
+            }
+            HomeFunnyStorage coverStorage = media.getCoverStorage();
+            if (coverStorage != null) {
+                homeFunnyStorageRepository.delete(coverStorage);
+            }
+            homeFunnyMultiMediaRepository.delete(media);
+        });
     }
 }
