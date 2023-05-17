@@ -40,8 +40,6 @@ public class HomeFunnyMediaDetailsService {
 
     @Transactional
     public void delete(List<HomeFunnyMediaDetail> details) {
-        List<HomeFunnyStorage> filteredStorage = details.stream().map(HomeFunnyMediaDetail::getStorage).filter(Objects::nonNull).toList();
-        homeFunnyStorageRepository.deleteAll(filteredStorage);
         homeFunnyMediaDetailRepository.deleteAll(details);
     }
 }

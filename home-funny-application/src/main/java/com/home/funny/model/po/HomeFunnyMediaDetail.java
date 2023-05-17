@@ -1,5 +1,6 @@
 package com.home.funny.model.po;
 
+import com.home.funny.constant.MediaType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,10 @@ public class HomeFunnyMediaDetail {
 
     @Column(name = "detail_name", length = 64)
     private String detailName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "media_type")
+    private MediaType mediaType;
 
     @ManyToOne
     @JoinColumn(name = "media_id")

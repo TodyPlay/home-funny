@@ -1,10 +1,12 @@
 package com.home.funny.api.storage;
 
 import com.home.funny.model.dto.HomeFunnyStorageDto;
+import com.home.funny.model.dto.paging.PageableDTO;
 import com.home.funny.model.po.HomeFunnyStorage;
 import com.home.funny.service.HomeFunnyStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,5 +36,10 @@ public class StorageController {
     @DeleteMapping("{id}")
     public void remove(@PathVariable Long id) {
         homeFunnyStorageService.delete(id);
+    }
+
+    @PostMapping("/list")
+    public Page<HomeFunnyStorageDto> list(PageableDTO page) {
+        return homeFunnyStorageService.findAll(page);
     }
 }

@@ -6,7 +6,6 @@ spring:
     password: 123456
     url: jdbc:mysql://${SERVER_IP}:3306/dev_jian
   jpa:
-    show-sql: true
     hibernate:
       ddl-auto: update
     open-in-view: true
@@ -15,3 +14,7 @@ s3:
   access: minioadmin
   secret: minioadmin
   budget: video
+logging:
+  level:
+    com.home.funny: debug
+    sql: debug

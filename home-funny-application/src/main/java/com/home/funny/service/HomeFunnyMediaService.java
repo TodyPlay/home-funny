@@ -7,10 +7,7 @@ import com.home.funny.model.dto.HomeFunnyMultiMediaDto;
 import com.home.funny.model.dto.paging.PageableDTO;
 import com.home.funny.model.dto.query.MediaQueryDTO;
 import com.home.funny.model.po.*;
-import com.home.funny.repository.HomeFunnyMediaDetailRepository;
-import com.home.funny.repository.HomeFunnyMediaTagRepository;
-import com.home.funny.repository.HomeFunnyMultiMediaRepository;
-import com.home.funny.repository.HomeFunnyStorageRepository;
+import com.home.funny.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -41,6 +38,8 @@ public class HomeFunnyMediaService {
     private HomeFunnyStorageRepository homeFunnyStorageRepository;
     @Autowired
     private HomeFunnyMediaDetailsService homeFunnyMediaDetailsService;
+    @Autowired
+    private HomeFunnyMediaTagMappingRepository homeFunnyMediaTagMappingRepository;
 
     public List<HomeFunnyMediaTag> mediaTags() {
         return tagRepository.findAll();
@@ -104,16 +103,19 @@ public class HomeFunnyMediaService {
 
     @Transactional
     public HomeFunnyMultiMedia saveOrUpdate(HomeFunnyMultiMedia homeFunnyMultiMedia) {
-
-        if (homeFunnyMultiMedia.getMediaDetails() != null && homeFunnyMultiMedia.getMediaDetails().size() > 0) {
-            homeFunnyMediaDetailsService.saveOrUpdate(homeFunnyMultiMedia.getMediaDetails());
-        }
-
         if (homeFunnyMultiMedia.getCoverStorage() != null) {
             homeFunnyStorageRepository.save(homeFunnyMultiMedia.getCoverStorage());
         }
 
-        return homeFunnyMultiMediaRepository.save(homeFunnyMultiMedia);
+        HomeFunnyMultiMedia media = homeFunnyMultiMediaRepository.save(homeFunnyMultiMedia);
+
+        for (HomeFunnyMediaDetail mediaDetail : media.getMediaDetails()) {
+            mediaDetail.setMultiMedia(media);
+        }
+
+        var result = homeFunnyMediaDetailsService.saveOrUpdate(homeFunnyMultiMedia.getMediaDetails());
+
+        return media;
     }
 
     @Transactional
@@ -121,15 +123,9 @@ public class HomeFunnyMediaService {
         Optional<HomeFunnyMultiMedia> byId = homeFunnyMultiMediaRepository.findById(id);
 
         byId.ifPresent(media -> {
-            List<HomeFunnyMediaDetail> details = media.getMediaDetails();
-            if (details.size() > 0) {
-                homeFunnyMediaDetailsService.delete(details);
-            }
-            HomeFunnyStorage coverStorage = media.getCoverStorage();
-            if (coverStorage != null) {
-                homeFunnyStorageRepository.delete(coverStorage);
-            }
+            homeFunnyMediaDetailsService.delete(media.getMediaDetails());
             homeFunnyMultiMediaRepository.delete(media);
+            homeFunnyMediaTagMappingRepository.deleteAll(media.getTagMappings());
         });
     }
 }
