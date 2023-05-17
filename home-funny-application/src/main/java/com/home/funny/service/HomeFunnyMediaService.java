@@ -109,7 +109,7 @@ public class HomeFunnyMediaService {
 
         HomeFunnyMultiMedia media = homeFunnyMultiMediaRepository.save(homeFunnyMultiMedia);
 
-        for (HomeFunnyMediaDetail mediaDetail : media.getMediaDetails()) {
+        for (HomeFunnyMediaDetail mediaDetail : homeFunnyMultiMedia.getMediaDetails()) {
             mediaDetail.setMultiMedia(media);
         }
 
