@@ -17,6 +17,9 @@ public record HomeFunnyMultiMediaDto(Long id,
                                      MediaType mediaType,
                                      LocalDate createDate,
                                      String description,
+
                                      List<HomeFunnyMediaDetailDto> mediaDetails,
-                                     HomeFunnyStorageDto coverStorage) implements Serializable {
+                                     HomeFunnyStorageDto coverStorage,
+                                     List<HomeFunnyMediaTagDto> mediaTags) implements Serializable {
+
 }

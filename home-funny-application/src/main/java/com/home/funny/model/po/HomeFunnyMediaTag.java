@@ -1,6 +1,8 @@
 package com.home.funny.model.po;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -8,6 +10,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "home_funny_media_tag", uniqueConstraints = {
         @UniqueConstraint(name = "uc_homefunnymediatag_name", columnNames = {"name"})
 })

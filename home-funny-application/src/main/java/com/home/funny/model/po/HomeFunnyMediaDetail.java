@@ -1,7 +1,9 @@
 package com.home.funny.model.po;
 
 import com.home.funny.constant.MediaType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +11,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "home_funny_media_detail")
 public class HomeFunnyMediaDetail {
     @Id
@@ -22,10 +26,6 @@ public class HomeFunnyMediaDetail {
     @Enumerated(EnumType.STRING)
     @Column(name = "media_type")
     private MediaType mediaType;
-
-    @ManyToOne
-    @JoinColumn(name = "media_id")
-    private HomeFunnyMultiMedia multiMedia;
 
     @Column(name = "sorter")
     private Integer sorter;

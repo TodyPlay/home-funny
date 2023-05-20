@@ -35,10 +35,10 @@ public class HomeFunnyMultiMedia {
     @Column(name = "description", length = 128)
     private String description;
 
-    @OneToMany(mappedBy = HomeFunnyMediaTagMapping_.MULTI_MEDIA)
-    private List<HomeFunnyMediaTagMapping> tagMappings;
+    @ManyToMany(cascade = {CascadeType.MERGE})
+    private List<HomeFunnyMediaTag> mediaTags;
 
-    @OneToMany(mappedBy = HomeFunnyMediaDetail_.MULTI_MEDIA)
+    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
     @OrderBy(HomeFunnyMediaDetail_.SORTER)
     private List<HomeFunnyMediaDetail> mediaDetails;
 

@@ -29,11 +29,6 @@ public class MultiMediaController {
         return homeFunnyMediaService.findById(id);
     }
 
-    @PostMapping("media-detail-by-media-id/{id}")
-    public List<HomeFunnyMediaDetailDto> mediaDetailByMediaId(@PathVariable Long id) {
-        return homeFunnyMediaService.mediaDetailByMediaId(id);
-    }
-
     @PostMapping("save")
     public HomeFunnyMultiMediaDto save(@RequestBody @Validated HomeFunnyMultiMediaDto homeFunnyMediaDetailDto) {
         return homeFunnyMediaService.saveOrUpdate(homeFunnyMediaDetailDto);

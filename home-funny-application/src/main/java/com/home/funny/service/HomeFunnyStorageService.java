@@ -123,7 +123,7 @@ public class HomeFunnyStorageService {
     @Transactional
     public void delete(Long id) {
 
-        log.debug("删除图片，id:{}", id);
+        log.debug("删除文件，id:{}", id);
 
         storageRepository.findById(id).ifPresent(store -> {
             storageRepository.deleteById(store.getId());
