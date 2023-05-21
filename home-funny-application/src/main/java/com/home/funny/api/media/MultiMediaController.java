@@ -1,16 +1,14 @@
 package com.home.funny.api.media;
 
+import com.home.funny.model.dto.HomeFunnyMediaDetailDto;
 import com.home.funny.model.dto.HomeFunnyMultiMediaDto;
 import com.home.funny.model.dto.paging.PageableDTO;
 import com.home.funny.model.dto.query.MediaQueryDTO;
-import com.home.funny.model.dto.HomeFunnyMediaDetailDto;
 import com.home.funny.service.HomeFunnyMediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/multi-media")
@@ -38,4 +36,10 @@ public class MultiMediaController {
     public void delete(@PathVariable Long id) {
         homeFunnyMediaService.delete(id);
     }
+
+    @PostMapping("detail-by-id/{id}")
+    public HomeFunnyMediaDetailDto detailById(@PathVariable Long id) {
+        return homeFunnyMediaService.detailById(id);
+    }
+
 }

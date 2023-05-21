@@ -2,9 +2,11 @@ package com.home.funny.service;
 
 import com.home.funny.model.converter.HomeFunnyMediaDetailMapper;
 import com.home.funny.model.converter.HomeFunnyMultiMediaMapper;
+import com.home.funny.model.dto.HomeFunnyMediaDetailDto;
 import com.home.funny.model.dto.HomeFunnyMultiMediaDto;
 import com.home.funny.model.dto.paging.PageableDTO;
 import com.home.funny.model.dto.query.MediaQueryDTO;
+import com.home.funny.model.po.HomeFunnyMediaDetail;
 import com.home.funny.model.po.HomeFunnyMediaTag;
 import com.home.funny.model.po.HomeFunnyMultiMedia;
 import com.home.funny.repository.HomeFunnyMediaDetailRepository;
@@ -89,4 +91,10 @@ public class HomeFunnyMediaService {
 
         byId.ifPresent(media -> homeFunnyMultiMediaRepository.delete(media));
     }
+
+    public HomeFunnyMediaDetailDto detailById(Long id) {
+        Optional<HomeFunnyMediaDetail> detail = homeFunnyMediaDetailRepository.findById(id);
+        return detail.map(homeFunnyMediaDetailMapper::toDto).orElseThrow();
+    }
+
 }
