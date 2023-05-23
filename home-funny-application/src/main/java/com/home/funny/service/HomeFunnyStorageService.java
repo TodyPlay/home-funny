@@ -6,7 +6,10 @@ import com.home.funny.model.dto.HomeFunnyStorageDto;
 import com.home.funny.model.dto.paging.PageableDTO;
 import com.home.funny.model.po.HomeFunnyStorage;
 import com.home.funny.repository.HomeFunnyStorageRepository;
-import io.minio.*;
+import io.minio.GetObjectArgs;
+import io.minio.MinioClient;
+import io.minio.StatObjectArgs;
+import io.minio.StatObjectResponse;
 import io.minio.errors.*;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -105,15 +108,9 @@ public class HomeFunnyStorageService {
     }
 
     @Transactional
-    public HomeFunnyStorage upload(MultipartFile part) throws Exception {
-        HomeFunnyStorage storage = new HomeFunnyStorage();
-        storage.setStorageGroup(minioConfig.getBudget());
-        storage.setStoragePath(UUID.randomUUID().toString());
-        storage.setStorageName(part.getOriginalFilename());
-        storageRepository.save(storage);
-
-        minioClient.putObject(PutObjectArgs.builder().bucket(storage.getStorageGroup()).object(storage.getStoragePath()).stream(part.getInputStream(), part.getSize(), 100 * 1024 * 1024).build());
-        return storage;
+    public HomeFunnyStorageDto upload(MultipartFile part) throws Exception {
+        HomeFunnyStorage homeFunnyStorage = new HomeFunnyStorage(null, part.getOriginalFilename(), minioConfig.getBudget(), UUID.randomUUID().toString(), part.getSize(), part.getInputStream());
+        return homeFunnyStorageMapper.toDto(storageRepository.save(homeFunnyStorage));
     }
 
     public HomeFunnyStorageDto storage(Long id) {
@@ -122,18 +119,7 @@ public class HomeFunnyStorageService {
 
     @Transactional
     public void delete(Long id) {
-
-        log.debug("删除文件，id:{}", id);
-
-        storageRepository.findById(id).ifPresent(store -> {
-            storageRepository.deleteById(store.getId());
-            try {
-                minioClient.removeObject(RemoveObjectArgs.builder().bucket(store.getStorageGroup()).object(store.getStoragePath()).build());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-
+        storageRepository.deleteById(id);
     }
 
     public Page<HomeFunnyStorageDto> findAll(PageableDTO page) {

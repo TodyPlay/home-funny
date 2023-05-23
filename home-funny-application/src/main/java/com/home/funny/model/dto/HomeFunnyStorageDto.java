@@ -10,5 +10,6 @@ import java.io.Serializable;
 public record HomeFunnyStorageDto(Long id,
                                   String storageName,
                                   String storageGroup,
-                                  String storagePath) implements Serializable {
+                                  String storagePath,
+                                  Long size) implements Serializable {
 }
