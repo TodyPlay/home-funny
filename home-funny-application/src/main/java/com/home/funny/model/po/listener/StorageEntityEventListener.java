@@ -4,11 +4,10 @@ import com.home.funny.model.po.HomeFunnyStorage;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
+import jakarta.persistence.PostPersist;
+import jakarta.persistence.PostRemove;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.persistence.PostPersist;
-import javax.persistence.PostRemove;
 
 @Component
 public class StorageEntityEventListener {

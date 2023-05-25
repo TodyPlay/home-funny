@@ -17,28 +17,23 @@ public class StorageController {
     @Autowired
     private HomeFunnyStorageService homeFunnyStorageService;
 
-    @GetMapping("download/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Resource> download(@PathVariable Long id, @RequestHeader(value = "Range", required = false) String range) throws Exception {
         return homeFunnyStorageService.download2(id, range);
     }
 
-    @PostMapping("upload")
-    public HomeFunnyStorageDto upload(@RequestParam("file") MultipartFile part) throws Exception {
-        return homeFunnyStorageService.upload(part);
+    @PostMapping
+    public Page<HomeFunnyStorageDto> list(PageableDTO page) {
+        return homeFunnyStorageService.findAll(page);
     }
 
-    @PostMapping("storage/{id}")
-    public HomeFunnyStorageDto storage(@PathVariable Long id) {
-        return homeFunnyStorageService.storage(id);
+    @PutMapping
+    public HomeFunnyStorageDto upload(@RequestParam("file") MultipartFile part) throws Exception {
+        return homeFunnyStorageService.upload(part);
     }
 
     @DeleteMapping("{id}")
     public void remove(@PathVariable Long id) {
         homeFunnyStorageService.delete(id);
-    }
-
-    @PostMapping("/list")
-    public Page<HomeFunnyStorageDto> list(PageableDTO page) {
-        return homeFunnyStorageService.findAll(page);
     }
 }

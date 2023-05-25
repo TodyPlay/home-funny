@@ -1,6 +1,5 @@
 package com.home.funny.api.media;
 
-import com.home.funny.model.dto.HomeFunnyMediaDetailDto;
 import com.home.funny.model.dto.HomeFunnyMultiMediaDto;
 import com.home.funny.model.dto.paging.PageableDTO;
 import com.home.funny.model.dto.query.MediaQueryDTO;
@@ -17,29 +16,25 @@ public class MultiMediaController {
     @Autowired
     private HomeFunnyMediaService homeFunnyMediaService;
 
-    @PostMapping("medias")
-    public Page<HomeFunnyMultiMediaDto> medias(@RequestBody MediaQueryDTO query, PageableDTO page) {
-        return homeFunnyMediaService.findMedias(query, page);
-    }
-
-    @PostMapping("medias/{id}")
+    @GetMapping("{id}")
     public HomeFunnyMultiMediaDto media(@PathVariable Long id) {
         return homeFunnyMediaService.findById(id);
     }
 
-    @PostMapping("save")
+    @PostMapping
+    public Page<HomeFunnyMultiMediaDto> medias(@RequestBody MediaQueryDTO query, PageableDTO page) {
+        return homeFunnyMediaService.findMedias(query, page);
+    }
+
+    @PutMapping
     public HomeFunnyMultiMediaDto save(@RequestBody @Validated HomeFunnyMultiMediaDto homeFunnyMediaDetailDto) {
         return homeFunnyMediaService.saveOrUpdate(homeFunnyMediaDetailDto);
     }
 
-    @PostMapping("delete/{id}")
+    @DeleteMapping("{id}")
     public void delete(@PathVariable Long id) {
         homeFunnyMediaService.delete(id);
     }
 
-    @PostMapping("detail-by-id/{id}")
-    public HomeFunnyMediaDetailDto detailById(@PathVariable Long id) {
-        return homeFunnyMediaService.detailById(id);
-    }
 
 }
