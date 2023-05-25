@@ -1,28 +1,25 @@
 package com.home.funny;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.home.funny.model.po.HomeFunnyMediaDetail;
 import com.home.funny.model.po.HomeFunnyMultiMedia;
 import com.home.funny.repository.HomeFunnyMultiMediaRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.TestPropertySources;
 
-import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
+@Slf4j
 class HomeFunnyApplicationTests {
+
 
     @Autowired
     private HomeFunnyMultiMediaRepository homeFunnyMultiMediaRepository;
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Test
-    @Transactional
-    @Commit
     void update() {
         HomeFunnyMultiMedia media = homeFunnyMultiMediaRepository.findById(47L).orElseThrow();
 
@@ -35,16 +32,12 @@ class HomeFunnyApplicationTests {
 
     @Test
     void save() {
-        HomeFunnyMultiMedia media = new HomeFunnyMultiMedia();
-        media.setName("name");
 
-        HomeFunnyMediaDetail detail = new HomeFunnyMediaDetail();
-        detail.setMultiMedia(media);
-        detail.setDetailName("detail");
-
-        media.setMediaDetails(List.of(detail));
-
-        homeFunnyMultiMediaRepository.save(media);
     }
 
+    @Test
+    void find() {
+        Optional<HomeFunnyMultiMedia> like = homeFunnyMultiMediaRepository.findByMediaTags_NameLike(null);
+        log.debug("{}", like);
+    }
 }

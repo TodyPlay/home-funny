@@ -40,16 +40,10 @@ public class HomeFunnyMediaService {
     }
 
     public Page<HomeFunnyMultiMediaDto> findMedias(MediaQueryDTO parameter, PageableDTO page) {
-        String name = parameter.getName();
-        if (name.isBlank()) {
-            name = null;
-        } else {
-            name = "%" + name + "%";
-        }
-        if (name != null) {
-            return homeFunnyMultiMediaRepository.findByNameLike(name, page.getPageable()).map(homeFunnyMultiMediaMapper::toDto);
-        }
-        return homeFunnyMultiMediaRepository.findAll(page.getPageable()).map(homeFunnyMultiMediaMapper::toDto);
+        return homeFunnyMultiMediaRepository.findByNameLike(
+                "%" + parameter.getName() + "%",
+                page.getPageable()
+        ).map(homeFunnyMultiMediaMapper::toDto);
     }
 
     public HomeFunnyMultiMediaDto findById(Long id) {

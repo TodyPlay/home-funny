@@ -3,6 +3,7 @@ package com.home.funny.model.po;
 import com.home.funny.constant.MediaType;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -29,6 +30,7 @@ public class HomeFunnyMultiMedia {
     @Column(name = "media_type")
     private MediaType mediaType;
 
+    @CreatedDate
     @Column(name = "create_date")
     private LocalDate createDate;
 
@@ -39,7 +41,6 @@ public class HomeFunnyMultiMedia {
     private List<HomeFunnyMediaTag> mediaTags;
 
     @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
-    @OrderBy(HomeFunnyMediaDetail_.SORTER)
     private List<HomeFunnyMediaDetail> mediaDetails;
 
 }

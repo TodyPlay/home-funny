@@ -11,6 +11,5 @@ import java.io.Serializable;
 public record HomeFunnyMediaDetailDto(Long id,
                                       String detailName,
                                       MediaType mediaType,
-                                      Integer sorter,
                                       HomeFunnyStorageDto storage) implements Serializable {
 }

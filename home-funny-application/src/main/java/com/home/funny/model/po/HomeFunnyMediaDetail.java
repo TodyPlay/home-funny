@@ -27,9 +27,6 @@ public class HomeFunnyMediaDetail {
     @Column(name = "media_type")
     private MediaType mediaType;
 
-    @Column(name = "sorter")
-    private Integer sorter;
-
     @ManyToOne
     @JoinColumn(name = "storage_id")
     private HomeFunnyStorage storage;
