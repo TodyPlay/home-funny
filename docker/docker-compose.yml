@@ -1,7 +1,7 @@
 version: '3'
 services:
   minio:
-    image: quay.io/minio/minio
+    image: quay.io/minio/minio:RELEASE.2023-01-20T02-05-44Z.hotfix.e1dbac2c1
     container_name: minio
     ports:
       - "9000:9000"
@@ -10,7 +10,7 @@ services:
       - ./data/minio:/data
     command: server /data --console-address ":9001"
   mysql:
-    image: mysql
+    image: mysql:8.0.33
     container_name: mysql_8
     ports:
       - "3306:3306"

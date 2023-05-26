@@ -15,6 +15,7 @@
 
     <modules>
         <module>home-funny-application</module>
+        <module>home-funny-gateway</module>
     </modules>
 
     <properties>
