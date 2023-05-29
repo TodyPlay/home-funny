@@ -1,0 +1,35 @@
+version: '3'
+services:
+  home-funny-application:
+    container_name: home-funny-application
+    build:
+      dockerfile: ./Application.Dockerfile
+    env_file:
+      - env/application.env
+  home-funny-gateway:
+    container_name: home-funny-gateway
+    build:
+      dockerfile: ./Gateway.Dockerfile
+    ports:
+      - "80:80"
+    env_file:
+      - env/gateway.env
+  minio:
+    image: quay.io/minio/minio:RELEASE.2023-05-27T05-56-19Z
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./data/minio:/data
+    command: server /data --console-address ":9001"
+  mysql:
+    image: mysql:8.0.33
+    container_name: mysql_8
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: dev_jian
+    volumes:
+      - ./data/mysql:/var/lib/mysql

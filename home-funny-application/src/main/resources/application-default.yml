@@ -2,18 +2,18 @@ server:
   port: 8080
 spring:
   datasource:
-    username: root
-    password: 123456
-    url: jdbc:mysql://${SERVER_IP}:3306/dev_jian
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+    url: ${DATASOURCE_URL}
   jpa:
     hibernate:
       ddl-auto: update
     open-in-view: true
 s3:
-  endpoint: http://${SERVER_IP}:9000/
-  access: minioadmin
-  secret: minioadmin
-  budget: video
+  endpoint: ${S3_ENTRYPOINT}
+  access: ${S3_ACCESS}
+  secret: ${S3_SECRET}
+  budget: ${S3_BUDGET}
 logging:
   level:
     com.home.funny: debug

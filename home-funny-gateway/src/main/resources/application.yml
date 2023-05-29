@@ -2,6 +2,10 @@ server:
   port: 80
 hf:
   routes:
-    minio-url: http://192.168.241.128:9000/
-    index-url: http://localhost:5173
-    app-url: http://localhost:8080
+    minio-url: ${GATEWAY_MINIO_URL}
+    index-url: ${GATEWAY_INDEX_URL}
+    app-url: ${GATEWAY_APP_URL}
+
+spring:
+  config:
+    import: optional:file:.env[.properties]

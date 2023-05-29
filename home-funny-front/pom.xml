@@ -3,16 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.home.funny</groupId>
-        <artifactId>home-funny-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
+    <groupId>com.home.funny</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>home-funny-front</artifactId>
 
     <packaging>jar</packaging>
 
     <name>home-funny-front</name>
-    <artifactId>home-funny-front</artifactId>
     <description>home-funny-front</description>
 
     <properties>
@@ -20,7 +17,6 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-
 
 
     <build>

@@ -10,4 +10,12 @@ spring:
       max-request-size: 1000GB
   web:
     resources:
-      static-locations: "classpath:/META-INF/resources/","classpath:/resources/", "classpath:/static/", "classpath:/public/", "file:/static/"
+      static-locations:
+        - "classpath:/META-INF/resources/"
+        - "classpath:/resources/"
+        - "classpath:/static/"
+        - "classpath:/public/"
+        - "file:static/"
+  config:
+    import:
+     - "optional:file:.env[.properties]"

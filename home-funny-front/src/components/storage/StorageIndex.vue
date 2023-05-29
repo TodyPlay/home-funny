@@ -86,7 +86,7 @@ export default {
         },
         async remove(row) {
             await restApi.delete_storage(row.id);
-            this.$message.success("删除成功" + row.id);
+            this.$message.success("删除成功：" + row.id);
             await this.flushList();
         }
     },
