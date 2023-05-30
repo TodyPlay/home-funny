@@ -14,6 +14,8 @@ import StorageIndex from "@/components/storage/StorageIndex.vue";
 //媒体管理
 import MediaManagementIndex from "@/components/media-management/MediaManagementIndex.vue"
 import MediaManagementEdite from "@/components/media-management/MediaManagementEdite.vue";
+//标签管理
+import TagsIndex from "@/components/tags/TagsIndex.vue";
 
 const routes = [
     {
@@ -54,11 +56,21 @@ const routes = [
         component: StorageIndex,
         name: StorageIndex.name,
     },
+    {
+        icon: List,
+        path: "/tags-index",
+        component: TagsIndex,
+        name: TagsIndex.name,
+    }
 ]
 
 
 let router = createRouter({
     history: createWebHashHistory(), routes: routes
 });
+
+router.beforeEach((to, from, next) => {
+    next();
+})
 
 export {router, routes};

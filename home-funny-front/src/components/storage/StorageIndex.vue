@@ -1,4 +1,4 @@
-<template>
+<template><div>
     <el-form v-model="searchData">
         <el-row>
             <el-col :span="5">
@@ -36,7 +36,7 @@
                    @size-change="flushList"
                    @current-change="flushList"
     />
-</template>
+</div></template>
 
 <script>
 import {constants} from "@/constant";

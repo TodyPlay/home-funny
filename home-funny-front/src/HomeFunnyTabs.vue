@@ -28,16 +28,13 @@ export default {
     },
     methods: {
         onTableRemove(path) {
-            let keys = Object.keys(this.routes);
-            let index = keys.indexOf(path);
-
-            this.$bus.emit("tab-close", this.routes[path]);
-
             delete this.routes[path];
 
             if (path === this.path) {
-                this.path = keys[index - 1];
+                this.$router.go(-1);
             }
+
+            this.$bus.emit("tab-close", this.routes[path]);
         },
         onTableChange(path) {
             this.$router.push(this.routes[path]);

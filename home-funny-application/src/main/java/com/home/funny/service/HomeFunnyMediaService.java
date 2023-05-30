@@ -1,16 +1,10 @@
 package com.home.funny.service;
 
-import com.home.funny.model.converter.HomeFunnyMediaDetailMapper;
 import com.home.funny.model.converter.HomeFunnyMultiMediaMapper;
-import com.home.funny.model.dto.HomeFunnyMediaDetailDto;
 import com.home.funny.model.dto.HomeFunnyMultiMediaDto;
 import com.home.funny.model.dto.paging.PageableDTO;
 import com.home.funny.model.dto.query.MediaQueryDTO;
-import com.home.funny.model.po.HomeFunnyMediaDetail;
-import com.home.funny.model.po.HomeFunnyMediaTag;
 import com.home.funny.model.po.HomeFunnyMultiMedia;
-import com.home.funny.repository.HomeFunnyMediaDetailRepository;
-import com.home.funny.repository.HomeFunnyMediaTagRepository;
 import com.home.funny.repository.HomeFunnyMultiMediaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,26 +12,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
 public class HomeFunnyMediaService {
     @Autowired
-    private HomeFunnyMediaTagRepository tagRepository;
-    @Autowired
     private HomeFunnyMultiMediaRepository homeFunnyMultiMediaRepository;
     @Autowired
-    private HomeFunnyMediaDetailRepository homeFunnyMediaDetailRepository;
-    @Autowired
     private HomeFunnyMultiMediaMapper homeFunnyMultiMediaMapper;
-    @Autowired
-    private HomeFunnyMediaDetailMapper homeFunnyMediaDetailMapper;
 
-    public List<HomeFunnyMediaTag> mediaTags() {
-        return tagRepository.findAll();
-    }
 
     public Page<HomeFunnyMultiMediaDto> findMedias(MediaQueryDTO parameter, PageableDTO page) {
         return homeFunnyMultiMediaRepository.findByNameLike(
@@ -86,9 +70,5 @@ public class HomeFunnyMediaService {
         byId.ifPresent(media -> homeFunnyMultiMediaRepository.delete(media));
     }
 
-    public HomeFunnyMediaDetailDto detailById(Long id) {
-        Optional<HomeFunnyMediaDetail> detail = homeFunnyMediaDetailRepository.findById(id);
-        return detail.map(homeFunnyMediaDetailMapper::toDto).orElseThrow();
-    }
 
 }

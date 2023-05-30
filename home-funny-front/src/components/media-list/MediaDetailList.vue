@@ -1,44 +1,46 @@
 <template>
-    <div v-for="(media , id) in medias" v-show="id === current">
+    <div>
+        <div v-for="(media , id) in medias" v-show="id === current">
 
-        <el-row>
-            <el-col :span="5">
-                <el-table :data="media.mediaDetails" max-height="730" height="730" size="small" stripe>
-                    <el-table-column label="序列">
-                        <template #default="scope">
-                            {{ scope.$index + 1 }}
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="detailName" label="名称"></el-table-column>
-                    <el-table-column label="媒体类型" prop="mediaType">
-                        <template #default="scope">
-                            {{ constantsFunction.findMediaTypeByName(scope.row.mediaType)?.val ?? '未选择' }}
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="操作">
-                        <template #default="{ row, column, $index }">
-                            <el-link type="primary" :disabled="row.storage == null"
-                                     @click="evt => currentVideo[id] = row">播放
-                            </el-link>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </el-col>
-            <el-col :span="17">
-                <div class="div-video">
-                    <video :id="'video_' + id"
-                           v-if="currentVideo[id]"
-                           :src="`${restApi.minio}/${currentVideo[id].storage.storageGroup}/${currentVideo[id].storage.storagePath}`"
-                           type="video/mp4"
-                           controls>
-                    </video>
-                    <el-empty v-else description="选择一个视频打开" style="top: 200px">
-                    </el-empty>
-                </div>
-            </el-col>
-        </el-row>
+            <el-row>
+                <el-col :span="5">
+                    <el-table :data="media.mediaDetails" max-height="730" height="730" size="small" stripe>
+                        <el-table-column label="序列">
+                            <template #default="scope">
+                                {{ scope.$index + 1 }}
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="detailName" label="名称"></el-table-column>
+                        <el-table-column label="媒体类型" prop="mediaType">
+                            <template #default="scope">
+                                {{ constantsFunction.findMediaTypeByName(scope.row.mediaType)?.val ?? '未选择' }}
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="操作">
+                            <template #default="{ row, column, $index }">
+                                <el-link type="primary" :disabled="row.storage == null"
+                                         @click="evt => currentVideo[id] = row">播放
+                                </el-link>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-col>
+                <el-col :span="17">
+                    <div class="div-video">
+                        <video :id="'video_' + id"
+                               v-if="currentVideo[id]"
+                               :src="`${restApi.minio}/${currentVideo[id].storage.storageGroup}/${currentVideo[id].storage.storagePath}`"
+                               type="video/mp4"
+                               controls>
+                        </video>
+                        <el-empty v-else description="选择一个视频打开" style="top: 200px">
+                        </el-empty>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
+
     </div>
-
 </template>
 
 <script>

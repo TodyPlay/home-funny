@@ -2,7 +2,6 @@ package com.home.funny.api;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,11 +27,7 @@ public class RestControllerExceptionAdvice {
         }
 
         public ExceptionResponse(Exception ex) {
-            if (ex instanceof DataIntegrityViolationException dataIntegrityViolationException) {
-                message = "该数据被其他地方引用，无法删除";
-            } else {
-                message = ex.getMessage();
-            }
+            message = ex.getMessage();
             type = ex.getClass().toString();
         }
     }

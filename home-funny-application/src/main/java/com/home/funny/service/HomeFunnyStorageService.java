@@ -29,6 +29,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -109,7 +110,17 @@ public class HomeFunnyStorageService {
 
     @Transactional
     public HomeFunnyStorageDto upload(MultipartFile part) throws Exception {
-        HomeFunnyStorage homeFunnyStorage = new HomeFunnyStorage(null, part.getOriginalFilename(), minioConfig.getBudget(), UUID.randomUUID().toString(), part.getSize(), part.getInputStream());
+        String name = Objects.requireNonNull(part.getOriginalFilename());
+        String group = minioConfig.getBudget();
+
+        String[] nameSplit = name.split("\\.");
+        String path = UUID.randomUUID().toString();
+
+        if (nameSplit.length >= 2) {
+            path += "." + nameSplit[nameSplit.length - 1];
+        }
+
+        HomeFunnyStorage homeFunnyStorage = new HomeFunnyStorage(null, name, group, path, part.getSize(), part.getInputStream());
         return homeFunnyStorageMapper.toDto(storageRepository.save(homeFunnyStorage));
     }
 

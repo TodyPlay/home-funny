@@ -1,4 +1,4 @@
-<template>
+<template><div>
     <el-form ref="form" :model="multiMedia" :rules="rules" @submit="submit" :disabled="loading" @submit.native.prevent>
         <el-row :gutter="20">
             <el-col :span="4">
@@ -148,11 +148,17 @@
         <el-row>
             <el-col>
                 <el-button type="primary" :loading="loading" :icon="select" native-type="submit" plain>保存</el-button>
-                <el-button type="primary" :loading="loading" :icon="refreshRight" @click="reset" plain>重置</el-button>
+                <el-popconfirm title="确定要重置吗，所有修改将丢失!" width="280"
+                               @confirm="reset"
+                >
+                    <template #reference>
+                        <el-button type="primary" :loading="loading" :icon="refreshRight" plain>重置</el-button>
+                    </template>
+                </el-popconfirm>
             </el-col>
         </el-row>
     </el-form>
-</template>
+</div></template>
 
 
 <script>

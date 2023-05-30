@@ -1,9 +1,8 @@
 package com.home.funny.model.po;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import jakarta.persistence.*;
 
 @Getter
 @Setter

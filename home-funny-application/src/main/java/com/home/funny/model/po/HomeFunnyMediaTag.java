@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "home_funny_media_tag", uniqueConstraints = {
-        @UniqueConstraint(name = "uc_homefunnymediatag_name", columnNames = {"name"})
+        @UniqueConstraint(name = "uc_media_tag__name", columnNames = {"name"})
 })
 public class HomeFunnyMediaTag {
     @Id

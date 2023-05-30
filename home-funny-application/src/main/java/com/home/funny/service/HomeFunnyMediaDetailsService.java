@@ -1,5 +1,7 @@
 package com.home.funny.service;
 
+import com.home.funny.model.converter.HomeFunnyMediaDetailMapperImpl;
+import com.home.funny.model.dto.HomeFunnyMediaDetailDto;
 import com.home.funny.model.po.HomeFunnyMediaDetail;
 import com.home.funny.model.po.HomeFunnyStorage;
 import com.home.funny.repository.HomeFunnyMediaDetailRepository;
@@ -9,16 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class HomeFunnyMediaDetailsService {
 
     private final HomeFunnyStorageRepository homeFunnyStorageRepository;
     private final HomeFunnyMediaDetailRepository homeFunnyMediaDetailRepository;
+    private final HomeFunnyMediaDetailMapperImpl homeFunnyMediaDetailMapper;
 
-    public HomeFunnyMediaDetailsService(HomeFunnyStorageRepository homeFunnyStorageRepository, HomeFunnyMediaDetailRepository homeFunnyMediaDetailRepository) {
+    public HomeFunnyMediaDetailsService(HomeFunnyStorageRepository homeFunnyStorageRepository, HomeFunnyMediaDetailRepository homeFunnyMediaDetailRepository, HomeFunnyMediaDetailMapperImpl homeFunnyMediaDetailMapper) {
         this.homeFunnyStorageRepository = homeFunnyStorageRepository;
         this.homeFunnyMediaDetailRepository = homeFunnyMediaDetailRepository;
+        this.homeFunnyMediaDetailMapper = homeFunnyMediaDetailMapper;
     }
 
     @Transactional
@@ -42,4 +47,10 @@ public class HomeFunnyMediaDetailsService {
     public void delete(List<HomeFunnyMediaDetail> details) {
         homeFunnyMediaDetailRepository.deleteAll(details);
     }
+
+    public HomeFunnyMediaDetailDto detailById(Long id) {
+        Optional<HomeFunnyMediaDetail> detail = homeFunnyMediaDetailRepository.findById(id);
+        return detail.map(homeFunnyMediaDetailMapper::toDto).orElseThrow();
+    }
+
 }

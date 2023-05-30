@@ -1,12 +1,11 @@
 package com.home.funny.model.po;
 
 import com.home.funny.constant.MediaType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import jakarta.persistence.*;
 
 @Getter
 @Setter

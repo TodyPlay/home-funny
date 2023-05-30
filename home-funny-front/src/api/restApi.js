@@ -2,6 +2,8 @@ import axios from "axios";
 
 axios.defaults.baseURL = "/api/v1"
 
+const mediaTags = "media-tags";
+
 let restApi = {
     constant: "/constant",
     dictionary: "/dictionary",
@@ -14,6 +16,21 @@ let restApi = {
     },
     fetch_dic: async (dicName) => {
         return (await axios.get(restApi.dictionary + "/" + dicName)).data;
+    },
+    put_dic: async (dicName, data) => {
+        return (await axios.put(restApi.dictionary + "/" + dicName, data)).data;
+    },
+    delete_dic: async (dicName, id) => {
+        return (await axios.delete(restApi.dictionary + "/" + dicName + "/" + id)).data;
+    },
+    fetch_dic_media_tag: async () => {
+        return await restApi.fetch_dic(mediaTags);
+    },
+    put_dic_media_tag: async (data) => {
+        return await restApi.put_dic(mediaTags, data);
+    },
+    delete_dic_media_tag: async (id) => {
+        return await restApi.delete_dic(mediaTags, id);
     },
     fetch_media: async (id) => {
         return (await axios.get(restApi.multiMedia + "/" + id)).data;

@@ -1,12 +1,12 @@
 package com.home.funny.model.po;
 
 import com.home.funny.model.po.listener.StorageEntityEventListener;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import jakarta.persistence.*;
 import java.io.InputStream;
 
 @Getter
@@ -15,7 +15,7 @@ import java.io.InputStream;
 @AllArgsConstructor
 @Entity
 @Table(name = "home_funny_storage", uniqueConstraints = {
-        @UniqueConstraint(name = "uc_homefunnystorage_storage_group", columnNames = {"storage_group", "storage_path"})
+        @UniqueConstraint(name = "uc_storage__group_path", columnNames = {"storage_group", "storage_path"})
 })
 @EntityListeners({StorageEntityEventListener.class})
 public class HomeFunnyStorage {

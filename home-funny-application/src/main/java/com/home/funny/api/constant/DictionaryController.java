@@ -1,11 +1,10 @@
 package com.home.funny.api.constant;
 
+import com.home.funny.model.dto.HomeFunnyMediaTagDto;
 import com.home.funny.model.po.HomeFunnyMediaTag;
-import com.home.funny.service.HomeFunnyMediaService;
+import com.home.funny.service.HomeFunnyTagService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,10 +12,21 @@ import java.util.List;
 @RequestMapping("/api/v1/dictionary")
 public class DictionaryController {
     @Autowired
-    private HomeFunnyMediaService homeFunnyMediaService;
+    private HomeFunnyTagService homeFunnyTagService;
 
     @GetMapping(value = "media-tags")
     public List<HomeFunnyMediaTag> mediaTags() {
-        return homeFunnyMediaService.mediaTags();
+        return homeFunnyTagService.mediaTags();
     }
+
+    @PutMapping("media-tags")
+    public HomeFunnyMediaTagDto putMediaTags(@RequestBody HomeFunnyMediaTagDto tag) {
+        return homeFunnyTagService.putMediaTags(tag);
+    }
+
+    @DeleteMapping("media-tags/{id}")
+    public void deleteMediaTag(@PathVariable Long id) {
+        homeFunnyTagService.delete(id);
+    }
+
 }

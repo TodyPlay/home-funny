@@ -1,4 +1,4 @@
-<template>
+<template><div>
     <el-form :model="searchData" @submit.native.prevent @submit="flushList">
         <el-row :gutter="20">
             <el-col :span="5">
@@ -87,7 +87,7 @@
                    @current-change="flushList"
                    @size-change="flushList"
     />
-</template>
+</div></template>
 
 <script>
 import {constants, constantsFunction} from "@/constant";
