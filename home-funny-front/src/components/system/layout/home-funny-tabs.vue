@@ -9,15 +9,14 @@
 </template>
 
 <script>
+import {routes} from "@/router";
+
 export default {
     data() {
         return {
             path: '/index',
             routes: {
-                '/index': {
-                    path: '/',
-                    name: '首页',
-                }
+                '/index': routes[0],
             },
         };
     },
