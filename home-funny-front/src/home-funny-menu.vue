@@ -1,10 +1,10 @@
 <template>
     <el-menu :router="true" :default-active="$route.path">
-        <el-menu-item v-for="route of routes.filter(v=>v.inMenu !== false)" :index="route.path">
+        <el-menu-item v-for="route of routes.filter(v=>v.meta?.inMenu !== false)" :index="route.path">
             <el-icon>
-                <component :is="route.icon"/>
+                <component :is="route.meta?.icon"/>
             </el-icon>
-            <span>{{ route.name }}</span>
+            <span>{{ route.meta?.title }}</span>
         </el-menu-item>
     </el-menu>
 </template>

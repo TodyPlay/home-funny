@@ -1,8 +1,8 @@
 <template>
     <el-tabs v-model="path" type="card" @tab-remove="onTableRemove" @tab-change="onTableChange">
-        <el-tab-pane v-for="(route) in routes" :key="route.path" :label="route.params?.tagName ?? route.name"
+        <el-tab-pane v-for="(route) in routes" :key="route.path" :label="route.params?.tagName ?? route.meta?.title"
                      :name="route.path"
-                     :closable="route.path !== '/'"
+                     :closable="route.path !== '/index'"
         >
         </el-tab-pane>
     </el-tabs>
@@ -12,9 +12,9 @@
 export default {
     data() {
         return {
-            path: '/',
+            path: '/index',
             routes: {
-                '/': {
+                '/index': {
                     path: '/',
                     name: '首页',
                 }

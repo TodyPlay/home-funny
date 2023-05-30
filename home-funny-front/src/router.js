@@ -1,66 +1,48 @@
 import {createRouter, createWebHashHistory} from "vue-router";
 import {Grid, List} from "@element-plus/icons-vue";
 
-//首页
-import index from "@/components/Index.vue";
-
-//媒体播放
-import MediaListIndex from "@/components/media-list/MediaIndex.vue";
-import MediaDetailList from "@/components/media-list/MediaDetailList.vue"
-
-//存储
-import StorageIndex from "@/components/storage/StorageIndex.vue";
-
-//媒体管理
-import MediaManagementIndex from "@/components/media-management/MediaManagementIndex.vue"
-import MediaManagementEdite from "@/components/media-management/MediaManagementEdite.vue";
-//标签管理
-import TagsIndex from "@/components/tags/TagsIndex.vue";
-
 const routes = [
     {
-        icon: Grid,
-        path: "/",
-        component: index,
-        name: index.name,
+        path: "/index",
+        component: () => import("@/components/index.vue"),
+        name: 'index',
+        meta: {title: "首页", icon: Grid}
     },
     {
-        icon: List,
         path: '/media-index',
-        component: MediaListIndex,
-        name: MediaListIndex.name,
+        component: () => import("@/components/media/list/media-index.vue"),
+        name: "media-index",
+        meta: {title: "多媒体列表", icon: List}
     },
     {
-        inMenu: false,
-        icon: Grid,
         path: "/media-detail-list/:id/:tagName",
-        component: MediaDetailList,
-        name: MediaDetailList.name,
+        component: () => import("@/components/media/list/media-detail-list.vue"),
+        name: "media-detail-list",
+        meta: {title: "多媒体详情", icon: Grid, inMenu: false}
     },
     {
-        icon: Grid,
         path: "/media-management",
-        component: MediaManagementIndex,
-        name: MediaManagementIndex.name,
+        component: () => import("@/components/media/management/media-management-index.vue"),
+        name: "/media-management",
+        meta: {title: "多媒体管理", icon: Grid}
     },
     {
-        inMenu: false,
-        icon: Grid,
         path: "/media-management-edite",
-        component: MediaManagementEdite,
-        name: MediaManagementEdite.name,
+        component: () => import("@/components/media/management/media-management-edit.vue"),
+        name: "/media-management-edite",
+        meta: {title: "多媒体编辑页", icon: Grid, inMenu: false}
     },
     {
-        icon: List,
         path: "/storage-list",
-        component: StorageIndex,
-        name: StorageIndex.name,
+        component: () => import("@/components/storage/storage-index.vue"),
+        name: "/storage-list",
+        meta: {title: "文件管理", icon: List}
     },
     {
-        icon: List,
         path: "/tags-index",
-        component: TagsIndex,
-        name: TagsIndex.name,
+        component: () => import("@/components/tags/tags-index.vue"),
+        name: "/tags-index",
+        meta: {title: "标签管理", icon: List}
     }
 ]
 

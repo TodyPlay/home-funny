@@ -26,8 +26,8 @@
 
 <script>
 
-import HomeFunnyMenu from "@/HomeFunnyMenu.vue";
-import HomeFunnyTabs from "@/HomeFunnyTabs.vue";
+import HomeFunnyMenu from "@/home-funny-menu.vue";
+import HomeFunnyTabs from "@/home-funny-tabs.vue";
 
 export default {
     components: {HomeFunnyTabs, HomeFunnyMenu},
