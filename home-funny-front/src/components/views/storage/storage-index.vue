@@ -44,7 +44,7 @@ import {Search} from "@element-plus/icons-vue";
 import {restApi} from "@/api/restApi";
 
 export default {
-    name: "文件管理",
+    name: "StorageList",
     computed: {
         Search() {
             return Search

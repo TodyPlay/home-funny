@@ -1,4 +1,4 @@
-import {createRouter, createWebHashHistory} from "vue-router";
+import {createRouter, createWebHashHistory, createWebHistory} from "vue-router";
 import {Grid, List} from "@element-plus/icons-vue";
 import Cookies from "js-cookie";
 
@@ -6,43 +6,43 @@ const routes = [
     {
         path: "/index",
         component: () => import("@/components/views/index.vue"),
-        name: 'index',
+        name: 'Index',
         meta: {title: "首页", icon: Grid}
     },
     {
         path: '/media-index',
         component: () => import("@/components/views/media/list/media-index.vue"),
-        name: "media-index",
+        name: "MediaIndex",
         meta: {title: "多媒体列表", icon: List}
     },
     {
         path: "/media-detail-list/:id/:tagName",
         component: () => import("@/components/views/media/list/media-detail-list.vue"),
-        name: "media-detail-list",
+        name: "MediaDetailList",
         meta: {title: "多媒体详情", icon: Grid, inMenu: false}
     },
     {
         path: "/media-management",
         component: () => import("@/components/views/media/management/media-management-index.vue"),
-        name: "media-management",
+        name: "MediaManagement",
         meta: {title: "多媒体管理", icon: Grid}
     },
     {
         path: "/media-management-edite",
         component: () => import("@/components/views/media/management/media-management-edit.vue"),
-        name: "media-management-edite",
+        name: "MediaManagementEdite",
         meta: {title: "多媒体编辑页", icon: Grid, inMenu: false}
     },
     {
         path: "/storage-list",
         component: () => import("@/components/views/storage/storage-index.vue"),
-        name: "storage-list",
+        name: "StorageList",
         meta: {title: "文件管理", icon: List}
     },
     {
         path: "/tags-index",
         component: () => import("@/components/views/tags/tags-index.vue"),
-        name: "tags-index",
+        name: "TagsIndex",
         meta: {title: "标签管理", icon: List}
     }
 ]
@@ -62,7 +62,7 @@ let routes_parent = [
     {
         path: "/login",
         component: () => import("@/components/system/login/login-index.vue"),
-        name: "login"
+        name: "Login"
     }
 ]
 

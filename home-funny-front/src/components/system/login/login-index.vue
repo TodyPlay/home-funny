@@ -7,7 +7,7 @@
 <script>
 
 export default {
-    name: "登录",
+    name: "Login",
     data() {
         return {}
     },

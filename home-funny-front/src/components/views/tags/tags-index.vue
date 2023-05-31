@@ -31,7 +31,7 @@ import {restApi} from "@/api/restApi";
 import {Plus} from "@element-plus/icons-vue";
 
 export default {
-    name: "标签管理",
+    name: "TagsIndex",
     computed: {
         restApi() {
             return restApi

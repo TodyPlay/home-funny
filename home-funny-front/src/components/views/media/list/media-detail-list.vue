@@ -48,7 +48,7 @@ import {constants, constantsFunction} from "@/constant";
 import {restApi} from "@/api/restApi";
 
 export default {
-    name: "多媒体详情",
+    name: "MediaDetailList",
     computed: {
         constantsFunction() {
             return constantsFunction
@@ -99,6 +99,7 @@ export default {
     },
     methods: {
         onTabClose(val) {
+            console.log(val);
             if (val.path.startsWith("/media-detail-list")) {
                 let id = val.params.id
                 delete this.medias[id];

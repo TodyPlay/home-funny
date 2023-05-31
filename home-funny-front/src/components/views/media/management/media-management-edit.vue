@@ -168,7 +168,7 @@ import {ArrowDown, ArrowUp, DeleteFilled, Plus, RefreshRight, Select} from "@ele
 import {restApi} from "@/api/restApi";
 
 export default {
-    name: "多媒体编辑页",
+    name: "MediaManagementEdite",
     components: {DeleteFilled, ArrowDown, ArrowUp, Plus, Select, RefreshRight},
     computed: {
         restApi() {

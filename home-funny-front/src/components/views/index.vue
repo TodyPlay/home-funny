@@ -9,7 +9,7 @@
 import {todoList} from "@/todoList"
 
 export default {
-    name: "首页",
+    name: "Index",
     data() {
         return {
             todoList: todoList

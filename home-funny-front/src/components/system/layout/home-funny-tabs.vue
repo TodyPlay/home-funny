@@ -27,13 +27,14 @@ export default {
     },
     methods: {
         onTableRemove(path) {
+            let route = this.routes[path];
+
             delete this.routes[path];
 
             if (path === this.path) {
                 this.$router.go(-1);
             }
-
-            this.$bus.emit("tab-close", this.routes[path]);
+            this.$bus.emit("tab-close", route);
         },
         onTableChange(path) {
             this.$router.push(this.routes[path]);
@@ -48,7 +49,13 @@ export default {
         'length'() {
             this.$emit('update:i_keepalive', Object.values(this.routes).map(v => v.name));
         }
-    }
+    },
+    mounted() {
+        let route = this.$route;
+        route.path = decodeURIComponent(route.path);
+        this.routes[route.path] = route;
+        this.path = route.path;
+    },
 }
 </script>
 

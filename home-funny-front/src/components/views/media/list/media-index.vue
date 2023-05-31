@@ -83,7 +83,7 @@ import {constants, constantsFunction} from "@/constant";
 import {restApi} from "@/api/restApi";
 
 export default {
-    name: "多媒体列表",
+    name: "MediaIndex",
     computed: {
         constants() {
             return constants

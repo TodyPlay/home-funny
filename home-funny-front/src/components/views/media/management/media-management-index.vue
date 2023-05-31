@@ -95,7 +95,7 @@ import {Search} from "@element-plus/icons-vue";
 import {restApi} from "@/api/restApi";
 
 export default {
-    name: "多媒体管理",
+    name: "MediaManagement",
     computed: {
         restApi() {
             return restApi
