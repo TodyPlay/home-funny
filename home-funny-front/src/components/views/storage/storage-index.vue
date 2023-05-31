@@ -29,7 +29,7 @@
     <el-pagination v-model:current-page="page.page"
                    v-model:disabled="loading"
                    v-model:page-size="page.size"
-                   v-model:page-sizes="constants.pageSizes"
+                   v-model:page-sizes="page.pageSizes"
                    v-model:total="page.total"
                    background
                    layout="total, sizes, jumper, ->, prev, pager, next"
@@ -39,7 +39,6 @@
 </div></template>
 
 <script>
-import {constants} from "@/constant";
 import {Search} from "@element-plus/icons-vue";
 import {restApi} from "@/api/restApi";
 
@@ -49,9 +48,6 @@ export default {
         Search() {
             return Search
         },
-        constants() {
-            return constants
-        }
     },
     data() {
         return {

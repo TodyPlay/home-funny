@@ -1,6 +1,34 @@
 import axios from "axios";
+import {ElMessage} from "element-plus";
+import {router} from "@/router";
 
 axios.defaults.baseURL = "/api/v1"
+axios.interceptors.response.use(
+    resp => {
+        return Promise.resolve(resp);
+
+    },
+    error => {
+
+        switch (error.response.status) {
+            case 401:
+                ElMessage.error("未经授权");
+                return router.push({
+                    path: "/login",
+                });
+            case  403:
+                ElMessage.warning("授权过期");
+                return router.push({
+                    path: "/login",
+                });
+            default:
+                ElMessage.error(error.message);
+                break;
+        }
+
+        return Promise.reject(error);
+    }
+)
 
 const mediaTags = "media-tags";
 

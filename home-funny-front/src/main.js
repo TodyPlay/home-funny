@@ -12,12 +12,7 @@ import Cookies from "js-cookie";
 let app = createApp(App);
 
 app.config.errorHandler = err => {
-    console.error(err);
     ElMessage.error(err.message);
-
-    if (err.response?.data?.message) {
-        ElMessage.error(err.response.data.message);
-    }
 };
 
 app.config.globalProperties.$bus = mitt();
