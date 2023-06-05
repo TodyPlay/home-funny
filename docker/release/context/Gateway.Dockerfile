@@ -4,6 +4,6 @@ VOLUME /tmp
 
 COPY target/home-funny-gateway-*.jar app.jar
 
-EXPOSE 80
+EXPOSE 8081
 
 ENTRYPOINT ["java","-jar","/app.jar"]

@@ -38,7 +38,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>docker/release/target</outputDirectory>
+                            <outputDirectory>docker/release/context/target</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${basedir}/home-funny-application/target</directory>
@@ -69,7 +69,7 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>${basedir}/docker/release/target</directory>
+                            <directory>${basedir}/docker/release/context/target</directory>
                         </fileset>
                     </filesets>
                 </configuration>

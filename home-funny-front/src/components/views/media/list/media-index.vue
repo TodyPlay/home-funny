@@ -22,7 +22,7 @@
             <el-table-column label="名称" prop="name" width="150"/>
             <el-table-column label="媒体类型" prop="mediaType" width="150">
                 <template #default="scope">
-                    {{ constantsFunction.findMediaTypeByName(scope.row.mediaType)?.val }}
+                    {{ this.types.filter(v => v.key === (scope.row.mediaType))[0]?.val }}
                 </template>
             </el-table-column>
             <el-table-column label="描述文本" prop="description" width="150"/>
@@ -79,19 +79,11 @@
 
 import {Plus, Search} from "@element-plus/icons-vue";
 import {markRaw} from "vue";
-import {constants, constantsFunction} from "@/constant";
 import {restApi} from "@/api/restApi";
 
 export default {
     name: "MediaIndex",
-    computed: {
-        constants() {
-            return constants
-        },
-        constantsFunction() {
-            return constantsFunction;
-        }
-    },
+    computed: {},
     components: {Search, Plus},
     data() {
         return {
@@ -110,7 +102,8 @@ export default {
                 size: 20,
                 total: 0,
                 orders: [],
-            }
+            },
+            types: []
         }
     },
     methods: {
@@ -136,6 +129,7 @@ export default {
     },
     watch: {},
     async mounted() {
+        this.types = await restApi.fetch_const("media-types");
         await this.flushList();
     }
 }

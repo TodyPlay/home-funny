@@ -1,4 +1,4 @@
-import {createRouter, createWebHashHistory, createWebHistory} from "vue-router";
+import {createRouter, createWebHashHistory} from "vue-router";
 import {Grid, List} from "@element-plus/icons-vue";
 import Cookies from "js-cookie";
 
@@ -71,7 +71,7 @@ let router = createRouter({
     history: createWebHashHistory(), routes: routes_parent
 });
 router.beforeEach((to, from, next) => {
-    if (Cookies.get('username') || to.path === '/login') {
+    if (Cookies.get('Token') || to.path === '/login') {
         next();
     } else {
         next({

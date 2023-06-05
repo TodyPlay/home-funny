@@ -11,7 +11,7 @@
                 <el-col :span="4">
                     <el-form-item label="多媒体类型" prop="mediaType">
                         <el-select v-model="multiMedia.mediaType">
-                            <el-option v-for="type in lazy_constants.types" :key="type.key" :label="type.val"
+                            <el-option v-for="type in this.types" :key="type.key" :label="type.val"
                                        :value="type.key"/>
                         </el-select>
                     </el-form-item>
@@ -20,7 +20,7 @@
                     <el-form-item label="标签" prop="mediaTags">
                         <el-select v-model="multiMedia.mediaTags"
                                    collapse-tags filterable multiple clearable value-key="name">
-                            <el-option v-for="tag in lazy_constants.tags" :key="tag.name" :label="tag.name"
+                            <el-option v-for="tag in this.tags" :key="tag.name" :label="tag.name"
                                        :value="tag"/>
                         </el-select>
                     </el-form-item>
@@ -32,7 +32,7 @@
                         <el-upload :http-request="upload" :show-file-list="false"
                                    :on-success="(resp) => this.multiMedia.coverStorage = resp"
                                    :on-error="error => $message.error(error)"
-                                   :accept="constants.imageSuffix"
+                                   :accept="imageSuffix"
                         >
                             <el-link type="primary" class="cover">上传封面</el-link>
                         </el-upload>
@@ -86,7 +86,8 @@
                             <el-table-column label="媒体类型" width="180">
                                 <template #default="{row}">
                                     <el-select size="small" v-model="row.mediaType">
-                                        <el-option v-for="type in lazy_constants.types" :key="type.key" :label="type.val"
+                                        <el-option v-for="type in this.types" :key="type.key"
+                                                   :label="type.val"
                                                    :value="type.key"/>
                                     </el-select>
                                 </template>
@@ -169,14 +170,14 @@
 
 import {ArrowDown, ArrowUp, DeleteFilled, Plus, RefreshRight, Select} from "@element-plus/icons-vue";
 import {restApi} from "@/api/restApi";
-import {constants, lazy_constants} from "@/constant";
+import {constants,} from "@/constant";
 
 export default {
     name: "MediaManagementEdite",
     components: {DeleteFilled, ArrowDown, ArrowUp, Plus, Select, RefreshRight},
     computed: {
-        constants() {
-            return constants
+        imageSuffix() {
+            return constants.imageSuffix;
         },
         restApi() {
             return restApi;
@@ -204,7 +205,8 @@ export default {
                 description: [{max: 128, message: "最长限制128个字符"}],
                 mediaType: [{required: true, message: "类型必填"}]
             },
-            lazy_constants: lazy_constants
+            tags: [],
+            types: [],
         };
     },
     methods: {
@@ -277,11 +279,11 @@ export default {
         }
     },
     async mounted() {
-        if (this.lazy_constants.tags.length === 0) {
-            this.lazy_constants.tags = await restApi.fetch_dic('media-tags');
+        if (this.tags.length === 0) {
+            this.tags = await restApi.fetch_dic('media-tags');
         }
-        if (this.lazy_constants.types.length === 0) {
-            this.lazy_constants.types = await restApi.fetch_const('media-types');
+        if (this.types.length === 0) {
+            this.types = await restApi.fetch_const('media-types');
         }
     }
 }

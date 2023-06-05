@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 let app = createApp(App);
 
 app.config.errorHandler = err => {
+    console.log(err);
     ElMessage.error(err.message);
 };
 

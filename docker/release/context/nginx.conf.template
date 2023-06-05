@@ -1,0 +1,16 @@
+server {
+   listen 80;
+   server_name localhost;
+   root /dist;
+   location / {
+       root /dist;
+       index index.html;
+   }
+   location /api/ {
+       proxy_pass http://home-funny-gateway:8081;
+   }
+   location /minio/ {
+       proxy_pass http://home-funny-gateway:8081;
+   }
+}
+

@@ -34,7 +34,7 @@
             </el-table-column>
             <el-table-column label="媒体类型" prop="mediaType" width="150">
                 <template #default="scope">
-                    {{ constantsFunction.findMediaTypeByName(scope.row.mediaType)?.val }}
+                    {{ this.types.filter(v => v.key === scope.row.mediaType)[0].val }}
                 </template>
             </el-table-column>
             <el-table-column label="标签" width="150">
@@ -92,7 +92,6 @@
 </template>
 
 <script>
-import {constantsFunction, lazy_constants} from "@/constant";
 import {Search} from "@element-plus/icons-vue";
 import {restApi} from "@/api/restApi";
 
@@ -101,9 +100,6 @@ export default {
     computed: {
         restApi() {
             return restApi
-        },
-        constantsFunction() {
-            return constantsFunction
         },
         Search() {
             return Search
@@ -122,12 +118,14 @@ export default {
                 size: 20,
                 total: 0,
                 orders: [],
-            }
+            },
+            types: [],
+            tags: [],
         };
     },
     methods: {
         findMediaTypeByName: (name) => {
-            return lazy_constants.types.filter(v => v.key === name)[0];
+            return this.types.filter(v => v.key === name)[0];
         },
         async flushList() {
             this.loading = true;
@@ -164,14 +162,12 @@ export default {
         }
     },
     async mounted() {
-        let tags = restApi.fetch_dic('media-tags');
-        let types = restApi.fetch_const('media-types');
 
-        if (this.lazy_constants.tags.length === 0) {
-            this.lazy_constants.tags = await tags;
+        if (this.tags.length === 0) {
+            this.tags = await restApi.fetch_dic('media-tags');
         }
-        if (this.lazy_constants.types.length === 0) {
-            this.lazy_constants.types = await types;
+        if (this.types.length === 0) {
+            this.types = await restApi.fetch_const('media-types');
         }
 
         await this.flushList();

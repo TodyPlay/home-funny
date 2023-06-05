@@ -3,17 +3,32 @@ services:
   home-funny-application:
     container_name: home-funny-application
     build:
-      dockerfile: ./Application.Dockerfile
+      dockerfile: Application.Dockerfile
+      context: ./context
     env_file:
       - env/application.env
+    depends_on:
+      - mysql
+      - minio
+
   home-funny-gateway:
     container_name: home-funny-gateway
     build:
-      dockerfile: ./Gateway.Dockerfile
-    ports:
-      - "80:80"
+      dockerfile: Gateway.Dockerfile
+      context: ./context
     env_file:
       - env/gateway.env
+
+  home-funny-index:
+    container_name: home-funny-index
+    build:
+      dockerfile: Front.Dockerfile
+      context: ./context
+    env_file:
+      - env/index.env
+    ports:
+      - "80:80"
+
   minio:
     image: quay.io/minio/minio:RELEASE.2023-05-27T05-56-19Z
     container_name: minio
@@ -23,6 +38,7 @@ services:
     volumes:
       - ./data/minio:/data
     command: server /data --console-address ":9001"
+
   mysql:
     image: mysql:8.0.33
     container_name: mysql_8

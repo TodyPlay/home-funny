@@ -13,7 +13,7 @@
                         <el-table-column prop="detailName" label="名称"></el-table-column>
                         <el-table-column label="媒体类型" prop="mediaType">
                             <template #default="scope">
-                                {{ constantsFunction.findMediaTypeByName(scope.row.mediaType)?.val ?? '未选择' }}
+                                {{ this.types.filter(v => v.key === (scope.row.mediaType))[0]?.val }}
                             </template>
                         </el-table-column>
                         <el-table-column label="操作">
@@ -44,18 +44,11 @@
 </template>
 
 <script>
-import {constants, constantsFunction} from "@/constant";
 import {restApi} from "@/api/restApi";
 
 export default {
     name: "MediaDetailList",
     computed: {
-        constantsFunction() {
-            return constantsFunction
-        },
-        constants() {
-            return constants
-        },
         restApi() {
             return restApi;
         }
@@ -65,6 +58,7 @@ export default {
             current: null,
             currentVideo: {},
             medias: {},
+            types: [],
         };
     },
     async activated() {
@@ -99,7 +93,6 @@ export default {
     },
     methods: {
         onTabClose(val) {
-            console.log(val);
             if (val.path.startsWith("/media-detail-list")) {
                 let id = val.params.id
                 delete this.medias[id];
@@ -112,6 +105,9 @@ export default {
     },
     unmounted() {
         this.$bus.off("tab-close", this.onTabClose);
+    },
+    async mounted() {
+        this.types = await restApi.fetch_const("media-types");
     }
 
 }

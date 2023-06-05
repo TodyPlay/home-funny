@@ -31,6 +31,7 @@
 
 import HomeFunnyMenu from "@/components/system/layout/home-funny-menu.vue";
 import HomeFunnyTabs from "@/components/system/layout/home-funny-tabs.vue";
+import {restApi} from "@/api/restApi";
 
 export default {
     components: {HomeFunnyTabs, HomeFunnyMenu},
@@ -39,10 +40,16 @@ export default {
             i_keepalive: []
         }
     }, methods: {
-        handleLogout() {
-            this.$cookies.remove("username");
-            this.$cookies.remove("password");
-            this.$router.push("/");
+        async handleLogout() {
+            try {
+                await restApi.do_login_out();
+                this.$cookies.remove("Token");
+                this.$router.push("/login");
+                this.$message.success("登出成功")
+            } catch (e) {
+                console.log(e);
+                this.$message.error("登出失败")
+            }
         }
     },
 }

@@ -1,7 +1,9 @@
 <template>
     <div>
         <h1>待办</h1>
-        <p v-for="(item ,index) in todoList">{{ index + 1 + " , " + item }}</p>
+        <li v-for="(item ,index) in todoList">
+            <span style="font-family: '幼圆',serif ;color: #177abb">{{ item }}</span>
+        </li>
     </div>
 </template>
 
