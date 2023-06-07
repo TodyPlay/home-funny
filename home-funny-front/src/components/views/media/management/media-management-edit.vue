@@ -192,17 +192,11 @@ export default {
     data() {
         return {
             loading: false,
-            multiMedia: {
-                name: "",
-                mediaType: "VIDEO",
-                description: "",
-                mediaDetails: [],
-                mediaTags: [],
-            },
+            multiMedia: this.d_multiMedia(),
             viewer: false,
             rules: {
-                name: [{required: true, message: "名称是必填的"}],
-                description: [{max: 128, message: "最长限制128个字符"}],
+                name: [{required: true, message: "名称必填"}],
+                description: [{max: 128, message: "限制128个字符"}],
                 mediaType: [{required: true, message: "类型必填"}]
             },
             tags: [],
@@ -248,7 +242,7 @@ export default {
         },
         d_multiMedia() {
             return {
-                name: "",
+                name: "新建多媒体",
                 mediaType: "VIDEO",
                 description: "",
                 mediaDetails: [],

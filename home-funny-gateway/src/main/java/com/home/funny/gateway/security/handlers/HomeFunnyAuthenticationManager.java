@@ -2,6 +2,7 @@ package com.home.funny.gateway.security.handlers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,16 +30,19 @@ public class HomeFunnyAuthenticationManager implements ReactiveAuthenticationMan
             return Mono.just(authentication);
         }
 
-        return homeFunnyUserDetailsService.findByUsername(authentication.getPrincipal().toString()).flatMap(userDetails -> {
-            String rawPassword = authentication.getCredentials().toString();
-            String encodedPassword = userDetails.getPassword();
-            boolean matches = passwordEncoder.matches(rawPassword, encodedPassword);
-            if (matches) {
-                return Mono.just(new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), Collections.emptyList()));
-            }
+        return homeFunnyUserDetailsService.findByUsername(authentication.getPrincipal().toString())
+                .switchIfEmpty(Mono.defer(() -> Mono.error(new UsernameNotFoundException("用户未找到"))))
+                .flatMap(userDetails -> {
+                    String rawPassword = authentication.getCredentials().toString();
+                    String encodedPassword = userDetails.getPassword();
+                    boolean matches = passwordEncoder.matches(rawPassword, encodedPassword);
+                    if (matches) {
+                        return Mono.just(new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), Collections.emptyList()));
+                    }
 
-            return Mono.error(() -> new UsernameNotFoundException("密码错误或用户未找到"));
-        });
+                    return Mono.error(() -> new AuthenticationCredentialsNotFoundException("密码错误"));
+                })
+                ;
 
     }
 }

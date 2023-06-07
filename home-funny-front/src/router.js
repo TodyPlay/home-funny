@@ -1,6 +1,7 @@
 import {createRouter, createWebHashHistory} from "vue-router";
-import {Grid, List} from "@element-plus/icons-vue";
+import {ChatLineSquare, Grid, List} from "@element-plus/icons-vue";
 import Cookies from "js-cookie";
+import {ElMessage} from "element-plus";
 
 const routes = [
     {
@@ -44,7 +45,13 @@ const routes = [
         component: () => import("@/components/views/tags/tags-index.vue"),
         name: "TagsIndex",
         meta: {title: "标签管理", icon: List}
-    }
+    },
+    {
+        path: "/test-page",
+        component: () => import("@/components/views/test/test-index.vue"),
+        name: "TestPage",
+        meta: {title: "测试页面", icon: ChatLineSquare}
+    },
 ]
 
 let routes_parent = [
@@ -74,6 +81,7 @@ router.beforeEach((to, from, next) => {
     if (Cookies.get('Token') || to.path === '/login') {
         next();
     } else {
+        ElMessage.error("请先登陆");
         next({
             path: "login",
             query: {

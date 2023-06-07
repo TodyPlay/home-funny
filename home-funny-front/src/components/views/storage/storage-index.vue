@@ -11,7 +11,7 @@
     <el-button type="primary" @click="flushList" :loading="loading" :icon="Search" plain>查询</el-button>
     <el-table :data="tableList" height="540px" max-height="540px">
         <el-table-column label="ID" prop="id" width="80px"/>
-        <el-table-column label="文件名称" prop="storageName" width="300px"/>
+        <el-table-column label="文件名称" prop="storageName"/>
         <el-table-column label="文件分组" prop="storageGroup" width="150px"/>
         <el-table-column label="文件路径" prop="storagePath"/>
         <el-table-column label="操作" align="right">

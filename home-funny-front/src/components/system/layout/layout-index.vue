@@ -39,17 +39,19 @@ export default {
         return {
             i_keepalive: []
         }
-    }, methods: {
-        async handleLogout() {
-            try {
-                await restApi.do_login_out();
-                this.$cookies.remove("Token");
-                this.$router.push("/login");
-                this.$message.success("登出成功")
-            } catch (e) {
-                console.log(e);
-                this.$message.error("登出失败")
-            }
+    },
+    methods: {
+        handleLogout() {
+            restApi.do_login_out().then(
+                ok => {
+                    this.$cookies.remove("Token");
+                    this.$router.push("/login");
+                    this.$message.success("登出成功")
+                },
+                err => {
+                    this.$message.error("登出失败")
+                }
+            )
         }
     },
 }

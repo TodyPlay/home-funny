@@ -1,7 +1,7 @@
 package com.home.funny.gateway.security.handlers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.home.funny.gateway.security.dto.LoginData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.buffer.DataBufferUtils;
@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 
 /**
  * 1.获取认证信息
@@ -33,10 +32,9 @@ public class HomeFunnyAuthenticationConverter implements ServerAuthenticationCon
 
         return DataBufferUtils.join(exchange.getRequest().getBody()).flatMap(body -> {
             try (InputStream inputStream = body.asInputStream()) {
-                Map<String, Object> map = objectMapper.readValue(inputStream, new TypeReference<>() {
-                });
+                LoginData loginData = objectMapper.readValue(inputStream, LoginData.class);
 
-                return Mono.just(new UsernamePasswordAuthenticationToken(map.get("username"), map.get("password")));
+                return Mono.just(new UsernamePasswordAuthenticationToken(loginData.getUsername(), loginData.getPassword()));
 
             } catch (IOException e) {
                 return Mono.error(e);

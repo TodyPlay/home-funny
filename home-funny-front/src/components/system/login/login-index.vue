@@ -1,14 +1,34 @@
 <template>
     <div class="login-div">
+
         <el-form class="login-form" ref="loginForm" :rules="rules" :model="loginData" @submit="handleLogin"
                  @submit.native.prevent>
-            <el-form-item label="用户名" prop="username">
-                <el-input v-model="loginData.username"></el-input>
+            <h3 style="text-align: center; margin: 0 auto 30px auto">Home Funny</h3>
+            <el-form-item prop="username">
+                <el-input v-model="loginData.username" size="large">
+                    <template #prefix>
+                        <el-icon>
+                            <user/>
+                        </el-icon>
+                    </template>
+                </el-input>
             </el-form-item>
-            <el-form-item label="密码" prop="password">
-                <el-input v-model="loginData.password"></el-input>
+            <div style="height: 10px">
+
+            </div>
+            <el-form-item prop="password">
+                <el-input v-model="loginData.password" size="large" type="password">
+                    <template #prefix>
+                        <el-icon>
+                            <lock/>
+                        </el-icon>
+                    </template>
+                </el-input>
             </el-form-item>
-            <el-button native-type="submit">点击登录</el-button>
+            <div style="height: 50px">
+
+            </div>
+            <el-button native-type="submit" type="primary" style="width: 100%; height: 40px;">点击登录</el-button>
         </el-form>
     </div>
 </template>
@@ -16,9 +36,11 @@
 <script>
 
 import {restApi} from "@/api/restApi";
+import {Lock, User} from "@element-plus/icons-vue";
 
 export default {
     name: "Login",
+    components: {Lock, User},
     data() {
         return {
             loginData: {
@@ -39,16 +61,16 @@ export default {
                 return
             }
 
-            let data = await restApi.do_login(this.loginData.username, this.loginData.password);
-            if (data.code === 200) {
-                this.$message.success("登录成功");
-                this.$cookies.set("Token", data.token);
-                this.$router.push(this.$route.query.redirect || "/")
-            } else {
-                this.$message.error("登录失败：" + data.message)
-            }
-
-
+            await restApi.do_login(this.loginData.username, this.loginData.password).then(
+                data => {
+                    this.$message.success("登录成功");
+                    this.$cookies.set("Token", data.data);
+                    this.$router.push(this.$route.query.redirect || "/")
+                },
+                err => {
+                    this.$message.error("登录失败：" + (err.response.data.message || "服务器错误"))
+                }
+            )
         }
     },
 }
@@ -60,11 +82,16 @@ export default {
     justify-content: center;
     align-items: center;
     height: 100%;
+    background: url("@/assets/R-C.jfif");
+    background-size: cover;
 }
 
 .login-form {
     border-radius: 6px;
     width: 400px;
+    height: 320px;
     padding: 25px 25px 5px 25px;
+    background: #ffffff;
+
 }
 </style>

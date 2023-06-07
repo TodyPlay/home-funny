@@ -1,4 +1,4 @@
-package com.home.funny.gateway.router;
+package com.home.funny.gateway.config.router;
 
 import lombok.Getter;
 import lombok.Setter;

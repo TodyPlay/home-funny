@@ -1,4 +1,4 @@
-package com.home.funny.gateway.security;
+package com.home.funny.gateway.config;
 
 import com.home.funny.gateway.security.handlers.*;
 import org.springframework.context.annotation.Bean;

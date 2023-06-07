@@ -2,6 +2,7 @@ package com.home.funny.gateway.security.handlers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.home.funny.gateway.security.dto.HFResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.buffer.DataBufferFactory;
@@ -28,10 +29,10 @@ public class HomeFunnyLogoutSuccessHandler implements ServerLogoutSuccessHandler
         ServerHttpResponse response = exchange.getExchange().getResponse();
         DataBufferFactory dataBufferFactory = response.bufferFactory();
 
-        Map<String, ? extends Serializable> code = Map.of("code", 200, "message", "登出成功");
+        HFResponse<?> resp = HFResponse.ok(null, "登出成功");
 
         try {
-            return response.writeWith(Mono.just(dataBufferFactory.wrap(objectMapper.writeValueAsBytes(code))));
+            return response.writeWith(Mono.just(dataBufferFactory.wrap(objectMapper.writeValueAsBytes(resp))));
         } catch (JsonProcessingException e) {
             return Mono.error(e);
         }

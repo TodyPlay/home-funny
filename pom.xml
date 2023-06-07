@@ -14,6 +14,7 @@
     <description>home-funny-parent</description>
 
     <modules>
+        <module>home-funny-common</module>
         <module>home-funny-application</module>
         <module>home-funny-gateway</module>
         <module>home-funny-front</module>

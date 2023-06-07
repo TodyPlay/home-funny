@@ -2,6 +2,7 @@ package com.home.funny.gateway.security.handlers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.home.funny.gateway.security.dto.HFResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.buffer.DataBufferFactory;
@@ -12,9 +13,6 @@ import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.ServerAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
-
-import java.io.Serializable;
-import java.util.Map;
 
 @Component
 @Slf4j
@@ -32,10 +30,10 @@ public class HomeFunnyAuthenticationFailureHandler implements ServerAuthenticati
 
                     DataBufferFactory dataBufferFactory = resp.bufferFactory();
 
-                    Map<String, ? extends Serializable> code = Map.of("code", 403, "message", "未授权");
+                    HFResponse<?> response = HFResponse.unAuthorization(exception.getMessage());
 
                     try {
-                        return resp.writeWith(Mono.just(dataBufferFactory.wrap(objectMapper.writeValueAsBytes(code))));
+                        return resp.writeWith(Mono.just(dataBufferFactory.wrap(objectMapper.writeValueAsBytes(response))));
                     } catch (JsonProcessingException e) {
                         return Mono.error(e);
                     }

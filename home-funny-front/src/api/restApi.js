@@ -1,6 +1,4 @@
 import axios from "axios";
-import {ElMessage} from "element-plus";
-import {router} from "@/router";
 
 axios.defaults.baseURL = "/api/v1"
 axios.defaults.withCredentials = true;
@@ -10,25 +8,6 @@ axios.interceptors.response.use(
 
     },
     error => {
-        console.log(error);
-        switch (error.response.status) {
-            case 401:
-                ElMessage.error("未经授权");
-                router.push({
-                    path: "/login",
-                });
-                break
-            case  403:
-                ElMessage.warning("授权过期");
-                router.push({
-                    path: "/login",
-                });
-                break
-            default:
-                ElMessage.error(error.message);
-                break;
-        }
-
         return Promise.reject(error);
     }
 )
