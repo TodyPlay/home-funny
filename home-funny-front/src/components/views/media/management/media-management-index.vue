@@ -64,13 +64,23 @@
             </el-table-column>
             <el-table-column label="操作">
                 <template #default="scope">
-                    <el-link type="primary" @click="editeMedia(scope.row.id)">编辑</el-link>
+                    <el-link type="primary" @click="editeMedia(scope.row.id)">
+                        <el-icon>
+                            <edit/>
+                        </el-icon>
+                        编辑
+                    </el-link>
                     <el-divider direction="vertical"></el-divider>
                     <el-popconfirm title="确定要删除该数据吗，此操作不可逆!" width="280"
                                    @confirm="removeMedia(scope.row.id)"
                     >
                         <template #reference>
-                            <el-link type="danger">删除</el-link>
+                            <el-link type="danger">
+                                <el-icon>
+                                    <delete/>
+                                </el-icon>
+                                删除
+                            </el-link>
                         </template>
                     </el-popconfirm>
                 </template>
@@ -92,11 +102,12 @@
 </template>
 
 <script>
-import {Search} from "@element-plus/icons-vue";
+import {Delete, Edit, Search} from "@element-plus/icons-vue";
 import {restApi} from "@/api/restApi";
 
 export default {
     name: "MediaManagement",
+    components: {Delete, Edit},
     computed: {
         restApi() {
             return restApi

@@ -54,6 +54,9 @@
             <el-table-column label="操作" align="center">
                 <template #default="scope">
                     <el-link type="primary" :disabled="!scope.row.mediaType" @click="open(scope.row)">
+                        <el-icon>
+                            <top-right/>
+                        </el-icon>
                         打开
                     </el-link>
 
@@ -77,14 +80,14 @@
 
 <script>
 
-import {Plus, Search} from "@element-plus/icons-vue";
+import {Plus, Search, TopRight} from "@element-plus/icons-vue";
 import {markRaw} from "vue";
 import {restApi} from "@/api/restApi";
 
 export default {
     name: "MediaIndex",
     computed: {},
-    components: {Search, Plus},
+    components: {TopRight, Search, Plus},
     data() {
         return {
             multiMediaList: [],

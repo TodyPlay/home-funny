@@ -81,7 +81,6 @@ router.beforeEach((to, from, next) => {
     if (Cookies.get('Token') || to.path === '/login') {
         next();
     } else {
-        ElMessage.error("请先登陆");
         next({
             path: "login",
             query: {

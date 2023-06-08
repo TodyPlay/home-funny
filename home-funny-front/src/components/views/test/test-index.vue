@@ -1,17 +1,24 @@
 <template>
     <div>
-        <el-button @click="evt => this.$refs.upload.open()">打开上传页面</el-button>
-        <upload-index ref="upload" @success="data => $message.success(data.storageName)"/>
+        <el-button @click="upload">点击上传</el-button>
     </div>
 </template>
 <script>
-import UploadIndex from "@/components/system/upload/upload-index.vue";
 
 export default {
     name: "TestPage",
-    components: {UploadIndex},
+    computed: {},
     data() {
         return {}
+    },
+    methods: {
+        upload() {
+            this.$uploader.uploadSingle().then(data => {
+                console.log(data);
+            }, err => {
+                console.log(err);
+            })
+        }
     },
 }
 

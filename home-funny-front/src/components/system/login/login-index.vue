@@ -28,7 +28,9 @@
             <div style="height: 50px">
 
             </div>
-            <el-button native-type="submit" type="primary" style="width: 100%; height: 40px;">点击登录</el-button>
+            <el-button :disabled="loading" native-type="submit" type="primary" style="width: 100%; height: 40px;">
+                点击登录
+            </el-button>
         </el-form>
     </div>
 </template>
@@ -47,6 +49,7 @@ export default {
                 username: "",
                 password: "",
             },
+            loading: false,
             rules: {
                 username: [{required: true, message: "请填写用户名"}],
                 password: [{required: true, message: "请填写密码"}]
@@ -60,7 +63,7 @@ export default {
             if (!validate) {
                 return
             }
-
+            this.loading = true;
             await restApi.do_login(this.loginData.username, this.loginData.password).then(
                 data => {
                     this.$message.success("登录成功");
@@ -70,7 +73,9 @@ export default {
                 err => {
                     this.$message.error("登录失败：" + (err.response.data.message || "服务器错误"))
                 }
-            )
+            ).finally(() => {
+                this.loading = false;
+            })
         }
     },
 }

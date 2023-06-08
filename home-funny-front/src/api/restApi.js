@@ -1,4 +1,6 @@
 import axios from "axios";
+import {ElMessage} from "element-plus";
+import {router} from "@/router";
 
 axios.defaults.baseURL = "/api/v1"
 axios.defaults.withCredentials = true;
@@ -8,6 +10,16 @@ axios.interceptors.response.use(
 
     },
     error => {
+        if (error.response?.status === 401 && error.config.url !== "/login") {
+            ElMessage.error("请先登录");
+            setTimeout(() => {
+                router.push({
+                    path: "/login"
+                }).then(value => {
+                    Cookies.remove("Token");
+                });
+            })
+        }
         return Promise.reject(error);
     }
 )
@@ -67,7 +79,7 @@ let restApi = {
 
         return (await axios.post(restApi.storage, body));
     },
-    put_storage: async (file) => {
+    put_storage: async (file, process) => {
 
         let formData = new FormData();
         formData.append('file', file);
@@ -75,7 +87,10 @@ let restApi = {
         return (await axios.put(
             restApi.storage,
             formData,
-            {headers: {"Content-Type": "multipart/form-data"}}
+            {
+                headers: {"Content-Type": "multipart/form-data"},
+                onUploadProgress: process
+            }
         ))
     },
     delete_storage: async (id) => {

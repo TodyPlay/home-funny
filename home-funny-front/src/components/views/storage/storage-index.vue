@@ -1,49 +1,57 @@
-<template><div>
-    <el-form v-model="searchData">
-        <el-row>
-            <el-col :span="5">
-                <el-form-item label="文件名称">
-                    <el-input v-model="searchData.name"></el-input>
-                </el-form-item>
-            </el-col>
-        </el-row>
-    </el-form>
-    <el-button type="primary" @click="flushList" :loading="loading" :icon="Search" plain>查询</el-button>
-    <el-table :data="tableList" height="540px" max-height="540px">
-        <el-table-column label="ID" prop="id" width="80px"/>
-        <el-table-column label="文件名称" prop="storageName"/>
-        <el-table-column label="文件分组" prop="storageGroup" width="150px"/>
-        <el-table-column label="文件路径" prop="storagePath"/>
-        <el-table-column label="操作" align="right">
-            <template #default="scope">
-                <el-popconfirm title="确定要删除该文件吗，此操作不可逆!" width="280"
-                               @confirm="remove(scope.row)"
-                >
-                    <template #reference>
-                        <el-link type="danger">删除</el-link>
-                    </template>
-                </el-popconfirm>
-            </template>
-        </el-table-column>
-    </el-table>
-    <el-pagination v-model:current-page="page.page"
-                   v-model:disabled="loading"
-                   v-model:page-size="page.size"
-                   v-model:page-sizes="page.pageSizes"
-                   v-model:total="page.total"
-                   background
-                   layout="total, sizes, jumper, ->, prev, pager, next"
-                   @size-change="flushList"
-                   @current-change="flushList"
-    />
-</div></template>
+<template>
+    <div>
+        <el-form v-model="searchData">
+            <el-row>
+                <el-col :span="5">
+                    <el-form-item label="文件名称">
+                        <el-input v-model="searchData.name"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+        <el-button type="primary" @click="flushList" :loading="loading" :icon="Search" plain>查询</el-button>
+        <el-table :data="tableList" height="540px" max-height="540px">
+            <el-table-column label="ID" prop="id" width="80px"/>
+            <el-table-column label="文件名称" prop="storageName"/>
+            <el-table-column label="文件分组" prop="storageGroup" width="150px"/>
+            <el-table-column label="文件路径" prop="storagePath"/>
+            <el-table-column label="操作" align="right">
+                <template #default="scope">
+                    <el-popconfirm title="确定要删除该文件吗，此操作不可逆!" width="280"
+                                   @confirm="remove(scope.row)"
+                    >
+                        <template #reference>
+                            <el-link type="danger">
+                                <el-icon>
+                                    <delete/>
+                                </el-icon>
+                                删除
+                            </el-link>
+                        </template>
+                    </el-popconfirm>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-pagination v-model:current-page="page.page"
+                       v-model:disabled="loading"
+                       v-model:page-size="page.size"
+                       v-model:page-sizes="page.pageSizes"
+                       v-model:total="page.total"
+                       background
+                       layout="total, sizes, jumper, ->, prev, pager, next"
+                       @size-change="flushList"
+                       @current-change="flushList"
+        />
+    </div>
+</template>
 
 <script>
-import {Search} from "@element-plus/icons-vue";
+import {Delete, Search} from "@element-plus/icons-vue";
 import {restApi} from "@/api/restApi";
 
 export default {
     name: "StorageList",
+    components: {Delete},
     computed: {
         Search() {
             return Search
