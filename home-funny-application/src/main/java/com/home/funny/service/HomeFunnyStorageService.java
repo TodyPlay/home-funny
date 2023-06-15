@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -120,7 +121,14 @@ public class HomeFunnyStorageService {
             path += "." + nameSplit[nameSplit.length - 1];
         }
 
-        HomeFunnyStorage homeFunnyStorage = new HomeFunnyStorage(null, name, group, path, part.getSize(), part.getInputStream());
+        HomeFunnyStorage homeFunnyStorage = HomeFunnyStorage.builder()
+                .storageName(name)
+                .storageGroup(group)
+                .storagePath(path)
+                .size(part.getSize())
+                .inputStream(part.getInputStream())
+                .build();
+
         return homeFunnyStorageMapper.toDto(storageRepository.save(homeFunnyStorage));
     }
 

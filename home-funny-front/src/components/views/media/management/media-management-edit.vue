@@ -229,12 +229,17 @@ export default {
 
             this.loading = true;
 
-            try {
-                this.multiMedia = await restApi.put_media(this.multiMedia);
-                this.$message.success("保存成功");
-            } finally {
+            restApi.put_media(this.multiMedia).then(
+                ok => {
+                    this.multiMedia = ok;
+                    this.$message.success("保存成功");
+                },
+                err => {
+                    this.$message.error(err.message);
+                }
+            ).finally(() => {
                 this.loading = false;
-            }
+            })
 
         },
         async upload(options) {

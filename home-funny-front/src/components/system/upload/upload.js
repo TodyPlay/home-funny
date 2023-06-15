@@ -1,4 +1,5 @@
 import {restApi} from "@/api/restApi";
+import {ElMessage} from "element-plus";
 
 let formatter = new Intl.NumberFormat("zh-CN",
     {
@@ -7,16 +8,21 @@ let formatter = new Intl.NumberFormat("zh-CN",
     }
 )
 
+let time = 0;
+
 
 let uploader = {
-    uploadSingle: async () => {
-        let fileSystemFileHandles = await window.showOpenFilePicker({multiple: false});
-        console.assert(fileSystemFileHandles.length === 1);
-        let file = await fileSystemFileHandles[0].getFile();
-        return await restApi.put_storage(file, env => {
-            console.log(env.progress);
-        });
-
+    uploadSingle: () => {
+        return window.showOpenFilePicker({multiple: false}).then(handlers => {
+            return handlers[0].getFile();
+        }).then(file => {
+            return restApi.put_storage(file, env => {
+                console.log(env.progress);
+            });
+        }).finally(() => {
+                ElMessage.success("上传成功" + ++time);
+            }
+        );
     }
 }
 export {uploader}

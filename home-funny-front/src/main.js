@@ -14,6 +14,7 @@ let app = createApp(App);
 
 app.config.errorHandler = err => {
     console.error(err);
+    ElMessage.error(err.message);
 };
 
 app.config.globalProperties.$bus = mitt();

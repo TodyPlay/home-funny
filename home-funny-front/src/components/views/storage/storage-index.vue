@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form v-model="searchData">
+        <el-form v-model="searchData" @submit="flushList" @submit.native.prevent>
             <el-row>
                 <el-col :span="5">
                     <el-form-item label="文件名称">
@@ -8,8 +8,10 @@
                     </el-form-item>
                 </el-col>
             </el-row>
+            <el-button type="primary" native-type="submit" :loading="loading" :icon="Search" plain>查询</el-button>
+            <el-button type="warning" :icon="upload" @click="evt => this.$uploader.uploadSingle()">快速上传</el-button>
+
         </el-form>
-        <el-button type="primary" @click="flushList" :loading="loading" :icon="Search" plain>查询</el-button>
         <el-table :data="tableList" height="540px" max-height="540px">
             <el-table-column label="ID" prop="id" width="80px"/>
             <el-table-column label="文件名称" prop="storageName"/>
@@ -46,16 +48,19 @@
 </template>
 
 <script>
-import {Delete, Search} from "@element-plus/icons-vue";
+import {Delete, Search, Upload} from "@element-plus/icons-vue";
 import {restApi} from "@/api/restApi";
 
 export default {
     name: "StorageList",
-    components: {Delete},
+    components: {Upload, Delete},
     computed: {
         Search() {
             return Search
         },
+        upload() {
+            return Upload;
+        }
     },
     data() {
         return {

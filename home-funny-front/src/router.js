@@ -1,7 +1,6 @@
 import {createRouter, createWebHashHistory} from "vue-router";
 import {ChatLineSquare, Grid, List} from "@element-plus/icons-vue";
 import Cookies from "js-cookie";
-import {ElMessage} from "element-plus";
 
 const routes = [
     {
