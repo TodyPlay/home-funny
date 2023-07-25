@@ -4,7 +4,9 @@ import com.home.funny.model.dto.HomeFunnyMediaDetailDto;
 import com.home.funny.model.po.HomeFunnyMediaDetail;
 import org.mapstruct.*;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING,
+        uses = HomeFunnyStorageMapper.class
+)
 public interface HomeFunnyMediaDetailMapper {
     HomeFunnyMediaDetail toEntity(HomeFunnyMediaDetailDto homeFunnyMediaDetailDto);
 

@@ -5,6 +5,8 @@
 </template>
 <script>
 
+import axios from "axios";
+
 export default {
     name: "TestPage",
     computed: {},
@@ -13,11 +15,7 @@ export default {
     },
     methods: {
         upload() {
-            this.$uploader.uploadSingle().then(data => {
-                console.log(data);
-            }, err => {
-                console.log(err);
-            })
+            this.$message.success("ok")
         }
     },
 }

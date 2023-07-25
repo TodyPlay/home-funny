@@ -2,13 +2,13 @@ package com.home.funny.service;
 
 import com.home.funny.model.converter.HomeFunnyMultiMediaMapper;
 import com.home.funny.model.dto.HomeFunnyMultiMediaDto;
-import com.home.funny.model.dto.paging.PageableDTO;
 import com.home.funny.model.dto.query.MediaQueryDTO;
 import com.home.funny.model.po.HomeFunnyMultiMedia;
 import com.home.funny.repository.HomeFunnyMultiMediaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +23,10 @@ public class HomeFunnyMediaService {
     private HomeFunnyMultiMediaMapper homeFunnyMultiMediaMapper;
 
 
-    public Page<HomeFunnyMultiMediaDto> findMedias(MediaQueryDTO parameter, PageableDTO page) {
+    public Page<HomeFunnyMultiMediaDto> findMedias(MediaQueryDTO parameter, Pageable page) {
         return homeFunnyMultiMediaRepository.findByNameLike(
                 "%" + parameter.getName() + "%",
-                page.getPageable()
+                page
         ).map(homeFunnyMultiMediaMapper::toDto);
     }
 

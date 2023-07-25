@@ -27,3 +27,15 @@ services:
     command: redis-server --requirepass 123456
     ports:
       - "6379:6379"
+  oracle:
+    image: container-registry.oracle.com/database/free:latest
+    container_name: oracle
+    volumes:
+      - ./data/oracle/oradata:/opt/oracle/oradata
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PWD: 123456
+    ulimits:
+      nofile: 65535
+      nproc: 65535

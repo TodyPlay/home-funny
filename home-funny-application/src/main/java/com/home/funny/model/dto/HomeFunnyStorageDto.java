@@ -12,5 +12,5 @@ public record HomeFunnyStorageDto(Long id,
                                   String storageGroup,
                                   String storagePath,
                                   Long size,
-                                  Integer version) implements Serializable {
+                                  Long version) implements Serializable {
 }

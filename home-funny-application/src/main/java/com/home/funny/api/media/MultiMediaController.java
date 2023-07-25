@@ -1,11 +1,12 @@
 package com.home.funny.api.media;
 
 import com.home.funny.model.dto.HomeFunnyMultiMediaDto;
-import com.home.funny.model.dto.paging.PageableDTO;
 import com.home.funny.model.dto.query.MediaQueryDTO;
 import com.home.funny.service.HomeFunnyMediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class MultiMediaController {
     }
 
     @PostMapping
-    public Page<HomeFunnyMultiMediaDto> medias(@RequestBody MediaQueryDTO query, PageableDTO page) {
+    public Page<HomeFunnyMultiMediaDto> medias(@RequestBody MediaQueryDTO query,@PageableDefault Pageable page) {
         return homeFunnyMediaService.findMedias(query, page);
     }
 

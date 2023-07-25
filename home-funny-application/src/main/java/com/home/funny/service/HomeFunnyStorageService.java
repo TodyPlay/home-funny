@@ -3,7 +3,6 @@ package com.home.funny.service;
 import com.home.funny.config.MinioClientConfiguration;
 import com.home.funny.model.converter.HomeFunnyStorageMapper;
 import com.home.funny.model.dto.HomeFunnyStorageDto;
-import com.home.funny.model.dto.paging.PageableDTO;
 import com.home.funny.model.po.HomeFunnyStorage;
 import com.home.funny.repository.HomeFunnyStorageRepository;
 import io.minio.GetObjectArgs;
@@ -17,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -141,7 +140,7 @@ public class HomeFunnyStorageService {
         storageRepository.deleteById(id);
     }
 
-    public Page<HomeFunnyStorageDto> findAll(PageableDTO page) {
-        return storageRepository.findAll(page.getPageable()).map(homeFunnyStorageMapper::toDto);
+    public Page<HomeFunnyStorageDto> findAll(Pageable page) {
+        return storageRepository.findAll(page).map(homeFunnyStorageMapper::toDto);
     }
 }

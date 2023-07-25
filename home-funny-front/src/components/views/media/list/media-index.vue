@@ -7,62 +7,64 @@
                         <el-input v-model="searchData.name" placeholder="请输入名称" clearable></el-input>
                     </el-form-item>
                 </el-col>
-                <!--用layout布局处理，支持每行多个框-->
             </el-row>
         </el-form>
         <el-button :icon="icons.search" :loading="loading" type="primary" @click="flushList" plain>
             搜索
         </el-button>
-        <el-table :data="multiMediaList" stripe height="540px" max-height="540px">
-            <el-table-column label="序号" width="100">
-                <template #default="{$index}">
-                    {{ $index + 1 }}
-                </template>
-            </el-table-column>
-            <el-table-column label="名称" prop="name" width="150"/>
-            <el-table-column label="媒体类型" prop="mediaType" width="150">
-                <template #default="scope">
-                    {{ this.types.filter(v => v.key === (scope.row.mediaType))[0]?.val }}
-                </template>
-            </el-table-column>
-            <el-table-column label="描述文本" prop="description" width="150"/>
-            <el-table-column label="标签" prop="mediaTags" width="150">
-                <template #default="{row}">
-                    <el-tag v-for="tag in row.mediaTags.slice(0, 2)" color="-">
-                        {{ tag.name }}
-                    </el-tag>
-                    <el-popover v-if="row.mediaTags.length > 2" placement="bottom" :width="row.mediaTags.length * 51">
-                        <template #reference>
-                            <el-link type="primary">……</el-link>
-                        </template>
-                        <el-tag v-for="tag in row.mediaTags" color="-">
-                            {{ tag.name }}
-                        </el-tag>
-                    </el-popover>
-                </template>
-            </el-table-column>
-            <el-table-column label="集数" width="150x">
-                <template #default="{row}">
-                    <span>共</span>
-                    <span
-                        style="color: #24b29e;font-family: 黑体,serif;font-size: large;margin-left: 5px;margin-right: 5px ">{{
-                            row.mediaDetails.length
-                        }}</span>
-                    <span>集</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="操作" align="center">
-                <template #default="scope">
-                    <el-link type="primary" :disabled="!scope.row.mediaType" @click="open(scope.row)">
-                        <el-icon>
-                            <top-right/>
-                        </el-icon>
-                        打开
-                    </el-link>
+        <el-table :data="multiMediaList" stripe height="620px" max-height="620px">
+            <el-table-column>
+                <template #default="{row, $index}">
+                    <el-row>
+                        <el-col :span="4">
+                            <el-image style="height: 144px; width: 220px; border-radius: 12px"
+                                      :src="row.coverStorage ? `${restApi.minio}/${row.coverStorage.storageGroup}/${row.coverStorage.storagePath}` : unsavedImg"/>
+                        </el-col>
+                        <el-col :span="15">
+                            <el-row>
+                                <el-col :span="3">
+                                    <span style="font-family: 微软雅黑,serif; font-size: 17px">
+                                        {{ row.name }}
+                                    </span>
+                                </el-col>
+                                <el-col :span="1">
+                                    <el-tag>{{ types.filter(k => k.key === row.mediaType)[0]?.val }}</el-tag>
+                                </el-col>
+                            </el-row>
+                            <el-row style="height: 15px">
+
+                            </el-row>
+                            <el-row>
+                                <el-col :span="2">
+                                    <span>共</span>
+                                    <span
+                                        style="color: #24b29e;font-family: 黑体,serif;font-size: large;margin-left: 5px;margin-right: 5px ">{{
+                                            row.mediaDetails.length
+                                        }}</span>
+                                    <span>集</span>
+                                </el-col>
+                                <el-col :span="6">
+                                    <el-tag type="success">更新时间: {{ row.lastModifiedDate }}</el-tag>
+                                </el-col>
+                            </el-row>
+                            <el-row style="height: 45px">
+
+                            </el-row>
+                            <el-row>
+                                <el-col>
+                                    <el-link type="primary" :disabled="!row.mediaType" @click="open(row)">
+                                        <el-icon>
+                                            <top-right/>
+                                        </el-icon>
+                                        <span style="font-size: 16px">打开</span>
+                                    </el-link>
+                                </el-col>
+                            </el-row>
+                        </el-col>
+                    </el-row>
 
                 </template>
             </el-table-column>
-
         </el-table>
 
         <el-pagination v-model:current-page="page.page"
@@ -83,10 +85,18 @@
 import {Plus, Search, TopRight} from "@element-plus/icons-vue";
 import {markRaw} from "vue";
 import {restApi} from "@/api/restApi";
+import unsaved from '@/assets/unsaved.png';
 
 export default {
     name: "MediaIndex",
-    computed: {},
+    computed: {
+        restApi() {
+            return restApi
+        },
+        unsavedImg() {
+            return unsaved;
+        }
+    },
     components: {TopRight, Search, Plus},
     data() {
         return {
@@ -110,19 +120,20 @@ export default {
         }
     },
     methods: {
-        async flushList() {
+        flushList() {
             this.loading = true;
-            try {
-                let data = await restApi.fetch_media_list(this.searchData, this.page.page, this.page.size);
-                this.multiMediaList = data.content;
-                this.page.total = data.totalElements;
-            } catch (e) {
-                this.multiMediaList = [];
-                this.page.total = 0;
-                throw e;
-            } finally {
-                this.loading = false;
-            }
+            restApi.fetch_media_list(this.searchData, this.page.page, this.page.size)
+                .then(
+                    ok => {
+                        this.multiMediaList = ok.content;
+                        this.page.total = ok.totalElements;
+                    },
+                    err => {
+                        this.multiMediaList = [];
+                        this.page.total = 0;
+                        return Promise.reject(err);
+                    }
+                ).finally(() => this.loading = false);
         },
         open(media) {
             this.$router.push({
@@ -131,9 +142,14 @@ export default {
         },
     },
     watch: {},
-    async mounted() {
-        this.types = await restApi.fetch_const("media-types");
-        await this.flushList();
+    mounted() {
+        restApi.fetch_const("media-types")
+            .then(
+                ok => {
+                    this.types = ok;
+                    this.flushList();
+                }
+            )
     }
 }
 </script>

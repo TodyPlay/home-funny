@@ -11,11 +11,8 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 @Configuration
 public class WebClientConfiguration {
 
-    @Value("${hf.routes.app-url}")
-    private String appUrl;
-
     @Bean
-    public UserCaller webClient() {
+    public UserCaller webClient(@Value("${hf.routes.app-url}") String appUrl) {
         WebClient client = WebClient.builder().baseUrl(appUrl).build();
         HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(client)).build();
         return factory.createClient(UserCaller.class);
